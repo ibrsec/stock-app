@@ -213,8 +213,12 @@ const Register = () => {
 
 export default Register;
 
+
+
+
 // {username: 'testba', firstName: 'testba', lastName: 'testba', email: 'testba@test.com', password: 'Ba10sec45?'}
 // {username: 'test1', firstName: 'test1', lastName: 'test1', email: 'test1@test.com', password: 'testTEST?1'}
 //{username: 'test2', firstName: 'test2', lastName: 'test2', email: 'test2@test.com', password: 'testTEST?1'}
 //{username: 'test3', firstName: 'test3', lastName: 'test3', email: 'test3@test.com', password: 'testTEST?1'}
 //{username: 'test4', firstName: 'test4', lastName: 'test4', email: 'test4@test.com', password: 'testTEST?1'}
+//{username: 'test6', firstName: 'test6', lastName: 'test6', email: 'test6@test.com', password: 'testTEST?1'}
