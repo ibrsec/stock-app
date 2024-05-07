@@ -13,7 +13,11 @@ import DeleteFirm from "./DeleteFirm";
 const FirmCard = ({ address, _id, phone, image, name }) => {
      
   return (
+<<<<<<< HEAD
     <Card sx={{ maxWidth: 345,paddingLeft:"15px" ,paddingRight:"15px"}} >
+=======
+    <Card sx={{ maxWidth: 345 }}>
+>>>>>>> d302d3617d9589982b0b959a25d5006024f1d609
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {name}
