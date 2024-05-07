@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import useAxios from "./useAxios" 
-import { fetchFirmEnd, fetchFirmStart, firmsSuccess,deleteSuccess, postNewDataSuccess } from "../features/firmsSlice";
+import { fetchFirmEnd, fetchFirmStart, firmsSuccess,deleteSuccess, postNewDataSuccess, successWitoutPayload } from "../features/firmsSlice";
 import {
     toastErrorNotify,
     toastSuccessNotify,
@@ -32,7 +32,7 @@ const useStockRequest = () => {
             dispatch(fetchFirmStart())
             const {data} = await axiosToken.delete(`${path}/${id}` )
             console.log(`useStocktan getData(${path})= `,data);
-            dispatch(deleteSuccess())
+            dispatch(successWitoutPayload())
             toastSuccessNotify(`Deleted Successfully!`);
             getDataApi(path);
         } catch (error) {
@@ -48,7 +48,7 @@ const useStockRequest = () => {
             dispatch(fetchFirmStart())
             const {data} = await axiosToken.post(path,firmData)
             console.log(`useStocktan postnewData(${path})= `,data);
-            dispatch(postNewDataSuccess())
+            dispatch(successWitoutPayload())
             toastSuccessNotify(`New Firm is added Successfully!`);
             getDataApi(path); 
         } catch (error) {
@@ -58,7 +58,23 @@ const useStockRequest = () => {
             
         }
     }
-    return { getDataApi,deleteSelectedDataApi,postNewDataApi }
+    const putEditApi = async (path,id,firmData) => {
+ 
+        try {
+            dispatch(fetchFirmStart())
+            const {data} = await axiosToken.put(`${path}/${id}`,firmData)
+            console.log(`useStocktan putEditData(${path})= `,data);
+            dispatch(successWitoutPayload())
+            toastSuccessNotify(`The Firm is editted Successfully!`);
+            getDataApi(path); 
+        } catch (error) {
+            toastErrorNotify("Error! The New Firm couldn't be editted !");
+            dispatch(fetchFirmEnd())
+            console.log(error);
+            
+        }
+    }
+    return { getDataApi,deleteSelectedDataApi,postNewDataApi,putEditApi }
 }
 
 export default useStockRequest

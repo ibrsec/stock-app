@@ -5,10 +5,10 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import DeleteIcon from "@mui/icons-material/Delete";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
+ 
 import { Box } from "@mui/material";
 import DeleteFirm from "./DeleteFirm";
+import EditFirm from "./EditFirm";
 
 const FirmCard = ({ address, _id, phone, image, name }) => {
      
@@ -41,10 +41,8 @@ const FirmCard = ({ address, _id, phone, image, name }) => {
       <CardActions>
         <Box component="div" margin="auto">
             <DeleteFirm firmName={name} id={_id} />
-           
-          <Button size="small">
-            <BorderColorIcon />
-          </Button>
+           <EditFirm firm={{ address, _id, phone, image, name }}/>
+          
         </Box>
       </CardActions>
     </Card>
