@@ -4,7 +4,8 @@ import { ThemeProvider } from "@emotion/react";
 import { blueGrey, grey } from "@mui/material/colors";
 import { ToastContainer } from "react-toastify";
 import { Provider } from "react-redux";
-import store from "./app/store";
+import store, { persistor } from "./app/store";
+import { PersistGate } from "redux-persist/lib/integration/react";
 
 function App() {
   const theme = createTheme({
@@ -21,7 +22,10 @@ function App() {
     <div className="App">
       <ThemeProvider theme={theme}>
         <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor} >
+
           <AppRouter />
+          </PersistGate>
         </Provider>
         <ToastContainer />
       </ThemeProvider>
