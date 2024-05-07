@@ -3,8 +3,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
-import Register from "../pages/Register"; 
-
+import Register from "../pages/Register";
+import Firms from "../pages/Firms";
+import Purchases from "../pages/Purchases";
+import Sales from "../pages/Sales";
+import Products from "../pages/Products";
+import Brands from "../pages/Brands";
+import Home from "../pages/Home";
 
 const AppRouter = () => {
   return (
@@ -13,7 +18,14 @@ const AppRouter = () => {
         <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="stock" element={<PrivateRoute />}>
-          <Route path="" element={<Dashboard />} /> 
+          <Route path="" element={<Dashboard />}>
+            <Route index element={<Home />}/>
+            <Route path="purchases" element={<Purchases />} />
+            <Route path="sales" element={<Sales />} />
+            <Route path="products" element={<Products />} />
+            <Route path="firms" element={<Firms />} />
+            <Route path="brands" element={<Brands />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
