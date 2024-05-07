@@ -18,13 +18,17 @@ const firmsSlice = createSlice({
         state[payload.path] = payload.data.data;
 
     },
-    deleteSuccess:(state,{payload})=> {
+    successWitoutPayload: (state)=> {
         state.loading = false;
-        // state.firms = state.firms.filter(item => item._id !== payload); 
+
     },
-    postNewDataSuccess:(state)=>{
-        state.loading = false;
-    },
+    // deleteSuccess:(state,{payload})=> {
+    //     state.loading = false;
+    //     // state.firms = state.firms.filter(item => item._id !== payload); 
+    // },
+    // postNewDataSuccess:(state)=>{
+    //     state.loading = false;
+    // },
     fetchFirmEnd: (state) => {
       state.loading = false;
       state.error = true;
@@ -32,5 +36,5 @@ const firmsSlice = createSlice({
   },
 });
 
-export const {fetchFirmStart,fetchFirmEnd,firmsSuccess,deleteSuccess,postNewDataSuccess} = firmsSlice.actions;
+export const {fetchFirmStart,fetchFirmEnd,firmsSuccess,successWitoutPayload} = firmsSlice.actions;
 export default firmsSlice.reducer;
