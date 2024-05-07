@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import useAxios from "./useAxios" 
-import { fetchFirmEnd, fetchFirmStart, firmsSuccess,deleteSuccess } from "../features/firmsSlice";
+import { fetchFirmEnd, fetchFirmStart, firmsSuccess,deleteSuccess, postNewDataSuccess } from "../features/firmsSlice";
 import {
     toastErrorNotify,
     toastSuccessNotify,
@@ -16,9 +16,9 @@ const useStockRequest = () => {
 
         try {
             dispatch(fetchFirmStart())
-            const {data} = await axiosToken(path)
+            const {data} = await axiosToken("/"+path)
             console.log(`useStocktan getData(${path})= `,data);
-            dispatch(firmsSuccess(data))
+            dispatch(firmsSuccess({data,path}))
         } catch (error) {
             toastErrorNotify("Error! Couldn't Get Firms");
             dispatch(fetchFirmEnd())
@@ -34,7 +34,7 @@ const useStockRequest = () => {
             console.log(`useStocktan getData(${path})= `,data);
             dispatch(deleteSuccess())
             toastSuccessNotify(`Deleted Successfully!`);
-            getDataApi(path); 
+            getDataApi(path);
         } catch (error) {
             toastErrorNotify("Error! The Firm couldn't be deleted !");
             dispatch(fetchFirmEnd())
@@ -42,7 +42,23 @@ const useStockRequest = () => {
             
         }
     }
-    return { getDataApi,deleteSelectedDataApi }
+    const postNewDataApi = async (path,firmData) => {
+ 
+        try {
+            dispatch(fetchFirmStart())
+            const {data} = await axiosToken.post(path,firmData)
+            console.log(`useStocktan postnewData(${path})= `,data);
+            dispatch(postNewDataSuccess())
+            toastSuccessNotify(`New Firm is added Successfully!`);
+            getDataApi(path); 
+        } catch (error) {
+            toastErrorNotify("Error! The New Firm couldn't be added !");
+            dispatch(fetchFirmEnd())
+            console.log(error);
+            
+        }
+    }
+    return { getDataApi,deleteSelectedDataApi,postNewDataApi }
 }
 
 export default useStockRequest

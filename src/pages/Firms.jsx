@@ -11,7 +11,7 @@ const Firms = () => {
 const {getDataApi} = useStockRequest();
 const firms = useSelector((state)=>state.firms.firms)
   useEffect(()=>{
-    getDataApi("/firms");
+    getDataApi("firms");
   },[])
 
   console.log('firmsten = ', firms)
@@ -19,12 +19,12 @@ const firms = useSelector((state)=>state.firms.firms)
 
   return (
     <div>
-      <Typography variant='h3' marginY={2} >Firms</Typography>
+      <Typography variant='h3' marginy={2} >Firms</Typography>
       {/* New Firm button */}
     <NewFirm />
 
       {/* Firms List */}
-      <Box display="flex" flexWrap='wrap' gap={2} justifyContent="center" alignItems="center"   marginY={5}>
+      <Box display="flex" flexWrap='wrap' gap={2} justifyContent="center" alignItems="center"   marginy={5}>
        {firms?.map(firm => <FirmCard key={firm._id} {...firm} />)}
       </Box>
 

@@ -32,7 +32,7 @@ const DeleteFirm = ({firmName,id}) => {
     //? - [x]  call delete api
     //? - [x]  get firms after deletion
     //? - [x]  show result
-    deleteSelectedDataApi("/firms",id);
+    deleteSelectedDataApi("firms",id);
 
 
     //? - [x]  close the box
