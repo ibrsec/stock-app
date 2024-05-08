@@ -1,14 +1,13 @@
  
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button'; 
 import Modal from '@mui/material/Modal';
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import useStockRequest from '../../services/useStockRequest';
 import { toastWarnNotify } from '../../helper/ToastNotify';
 import { Form, Formik } from "formik";
 import { TextField } from "@mui/material";
-import { number, object, string } from "yup";  
+import {  object, string } from "yup";  
 import { useState } from 'react';
 
 
@@ -25,12 +24,10 @@ const style = {
     p: 4,
   };
   
-  const EditFirm = ({firm}) => {
-    const { address, _id, phone, image, name } = firm; 
+  const EditBrand = ({firm}) => {
+    const {   _id,   image, name } = firm; 
     const newFirmSchema = object({
-        name: string().max(40, "Max 20 character"),
-        phone: number("Must be a number"),
-        address: string().max(250, "Max 50 character"),
+        name: string().max(40, "Max 20 character"), 
         image: string().url().nullable().max(250, "Max 150 character"),
       });
 
@@ -57,9 +54,7 @@ const style = {
 
           <Formik
             initialValues={{
-              name: name,
-              phone: phone,
-              address: address,
+              name: name, 
               image: image,
             }}
             validationSchema={newFirmSchema}
@@ -70,7 +65,7 @@ const style = {
               //? - [x]  edit with put api the selected firm - write-call
               //? - [x]  get firms after post
               //? - [x]  show the result error success
-              putEditApi("firms",_id, values);
+              putEditApi("brands",_id, values);
 
             
             
@@ -108,31 +103,7 @@ const style = {
                     error={touched.name && Boolean(errors.name)}
                     helperText={errors.name}
                   />
-                  <TextField
-                    label="Phone"
-                    required
-                    name="phone"
-                    id="phone"
-                    type="text"
-                    variant="outlined"
-                    value={values.phone}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.phone && Boolean(errors.phone)} 
-                  />
-                  <TextField
-                    label="Address"
-                    required
-                    name="address"
-                    id="address"
-                    type="text"
-                    variant="outlined"
-                    value={values.address}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.address && Boolean(errors.address)}
-                    helperText={errors.address}
-                  />
+                    
                   <TextField
                     label="Image"
                     required
@@ -152,7 +123,7 @@ const style = {
                     size="large"
                     disabled={isSubmitting}
                   >
-                    UPDATE FIRM
+                    UPDATE BRAND
                   </Button>
                 </Box>
               </Form>
@@ -167,4 +138,4 @@ const style = {
   }
   
 
-export default EditFirm
+export default EditBrand

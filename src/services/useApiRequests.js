@@ -14,7 +14,7 @@ import {
 } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import useAxios from "./useAxios";
-import { deleteFirmsLogout } from "../features/firmsSlice";
+import { deleteStockLogout } from "../features/stockSlice";
 
 const useApiRequests = () => {
   const dispatch = useDispatch();
@@ -92,7 +92,7 @@ const {axiosToken,axiosPublic} = useAxios();
       const response = await axiosToken(`/auth/logout`);
       console.log("loginoutApiden = ",response);
       dispatch(logoutSuccess());
-      dispatch(deleteFirmsLogout());
+      dispatch(deleteStockLogout());
       toastSuccessNotify("You have been logged out!");
       navigate("/");
     } catch (error) {

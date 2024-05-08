@@ -6,7 +6,8 @@ import Modal from '@mui/material/Modal';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useStockRequest from '../../services/useStockRequest';
 import { toastWarnNotify } from '../../helper/ToastNotify';
-import { useState } from 'react';
+import {useState} from 'react';
+
 
 const style = {
   position: 'absolute',
@@ -20,7 +21,7 @@ const style = {
   p: 4,
 };
 
-const DeleteFirm = ({firmName,id}) => {
+const DeleteBrand = ({brandName,id}) => {
      
     const {deleteSelectedDataApi} = useStockRequest();
 
@@ -33,7 +34,7 @@ const DeleteFirm = ({firmName,id}) => {
     //? - [x]  call delete api
     //? - [x]  get firms after deletion
     //? - [x]  show result
-    deleteSelectedDataApi("firms",id);
+    deleteSelectedDataApi("brands",id);
 
 
     //? - [x]  close the box
@@ -60,7 +61,7 @@ const DeleteFirm = ({firmName,id}) => {
             Are you sure?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            "{firmName}" firm will be deleted? 
+            "{brandName}" brand will be deleted? 
             
           </Typography>
           <Box component="div" marginTop={2} display='flex' justifyContent='center' gap={1} >
@@ -73,5 +74,5 @@ const DeleteFirm = ({firmName,id}) => {
   );
 }
 
-
-export default DeleteFirm;
+ 
+export default DeleteBrand

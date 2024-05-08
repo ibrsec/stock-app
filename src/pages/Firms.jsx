@@ -10,9 +10,9 @@ import SkeltonCards from "../components/SkeltonCards";
 
 const Firms = () => {
 const {getDataApi} = useStockRequest();
-const firms = useSelector((state)=>state.firms.firms)
-const error = useSelector((state)=>state.firms.error)
-const loading = useSelector((state)=>state.firms.loading)
+const firms = useSelector((state)=>state.stock.firms)
+const error = useSelector((state)=>state.stock.error)
+const loading = useSelector((state)=>state.stock.loading)
 // const loading = true
 console.log(error);
   useEffect(()=>{

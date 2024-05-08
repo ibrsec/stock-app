@@ -13,24 +13,21 @@
 
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authSlice from "../features/authSlice";
-import firmsSlice from "../features/firmsSlice";
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
- 
-
+import storeSlice from "../features/stockSlice";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
 const rootReducer = combineReducers({
   auth: authSlice,
-  firms: firmsSlice,
+  stock: storeSlice,
 });
 const persistConfig = {
-    key: 'root',
-    storage,
-    version:1
-  }
- 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+  key: "root",
+  storage,
+  version: 1,
+};
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
