@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import { Form, Formik } from "formik";
 import { object, string } from "yup";
 import useApiRequests from "../services/useApiRequests";
-import { CssBaseline } from "@mui/material";
+import { CardMedia, CssBaseline } from "@mui/material";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -232,9 +232,17 @@ const Register = () => {
             </Box>
           </Grid>
 
-          <Grid item xs={0} sm={7} md={6}>
-            <Container>
-              <img src={image} alt="" />
+          
+          <Grid item xs={11} sm={10} md={6} alignSelf="center">
+            <Container sx={{width:"120%"}}>
+              <CardMedia
+                component="img"
+                alt="green iguana"
+                // height="140"
+                image={image}
+                sx={{ objectFit: "cover",width:"100%" }}
+              />
+              {/* <img src={image} alt="img" /> */}
             </Container>
           </Grid>
         </Grid>
