@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import useAxios from "./useAxios" 
-import { fetchFirmEnd, fetchFirmStart, firmsSuccess,deleteSuccess, postNewDataSuccess, successWitoutPayload } from "../features/firmsSlice";
+import { fetchFirmFail, fetchFirmStart, firmsSuccess,deleteSuccess, postNewDataSuccess, successWitoutPayload } from "../features/firmsSlice";
 import {
     toastErrorNotify,
     toastSuccessNotify,
@@ -21,7 +21,7 @@ const useStockRequest = () => {
             dispatch(firmsSuccess({data,path}))
         } catch (error) {
             toastErrorNotify("Error! Couldn't Get Firms");
-            dispatch(fetchFirmEnd())
+            dispatch(fetchFirmFail())
             console.log(error);
             
         }
@@ -37,7 +37,7 @@ const useStockRequest = () => {
             getDataApi(path);
         } catch (error) {
             toastErrorNotify("Error! The Firm couldn't be deleted !");
-            dispatch(fetchFirmEnd())
+            dispatch(fetchFirmFail())
             console.log(error);
             
         }
@@ -53,7 +53,7 @@ const useStockRequest = () => {
             getDataApi(path); 
         } catch (error) {
             toastErrorNotify("Error! The New Firm couldn't be added !");
-            dispatch(fetchFirmEnd())
+            dispatch(fetchFirmFail())
             console.log(error);
             
         }
@@ -69,7 +69,7 @@ const useStockRequest = () => {
             getDataApi(path); 
         } catch (error) {
             toastErrorNotify("Error! The New Firm couldn't be editted !");
-            dispatch(fetchFirmEnd())
+            dispatch(fetchFirmFail())
             console.log(error);
             
         }

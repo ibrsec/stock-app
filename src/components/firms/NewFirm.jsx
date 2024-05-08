@@ -41,7 +41,7 @@ const NewFirmModal = () => {
 
   return (
     <div>
-      <Button variant="contained" marginy={2} onClick={handleOpen}>
+      <Button variant="contained" marginy={2} onClick={handleOpen} sx={{marginBottom:"25px"}}>
         NEW FIRM
       </Button>
 

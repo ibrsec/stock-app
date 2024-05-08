@@ -6,14 +6,15 @@ import {
 } from "../helper/ToastNotify";
 import { useDispatch } from "react-redux";
 import {
-  fetchFail,
-  fetchStart,
+  fetchLoginFail,
+  fetchLoginStart,
   loginSuccess,
   logoutSuccess,
   registerSuccess,
 } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import useAxios from "./useAxios";
+import { deleteFirmsLogout } from "../features/firmsSlice";
 
 const useApiRequests = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const {axiosToken,axiosPublic} = useAxios();
     const BASE_URL = process.env.REACT_APP_BASE_URL;
      
 
-    dispatch(fetchStart());
+    dispatch(fetchLoginStart());
     try {
       // const { data } = await axios.post(`${BASE_URL}/auth/login`, userData);
       const { data } = await axiosPublic.post(`/auth/login`, userData);
@@ -35,7 +36,7 @@ const {axiosToken,axiosPublic} = useAxios();
       navigate("/stock"); 
     } catch (error) {
       toastErrorNotify("Login is failed!!");
-      dispatch(fetchFail());
+      dispatch(fetchLoginFail());
       console.log(error);
     }
   };
@@ -49,7 +50,7 @@ const {axiosToken,axiosPublic} = useAxios();
     //     "lastName": "test"
     //   }
 
-    dispatch(fetchStart());
+    dispatch(fetchLoginStart());
     try {
       // const { data } = await axios.post(
       //   `${process.env.REACT_APP_BASE_URL}/users`,
@@ -66,7 +67,7 @@ const {axiosToken,axiosPublic} = useAxios();
       dispatch(registerSuccess(data));
       navigate("/stock");
     } catch (error) {
-      dispatch(fetchFail());
+      dispatch(fetchLoginFail());
       toastErrorNotify("Something went wrong. Registration failed!!");
       console.log(error);
       toastWarnNotify(error.response.data.message);
@@ -75,7 +76,7 @@ const {axiosToken,axiosPublic} = useAxios();
   };
 
   const logoutApi = async (token) => {
-    dispatch(fetchStart());
+    dispatch(fetchLoginStart());
     try {
       // const options = {
       //   headers: {
@@ -93,11 +94,12 @@ const {axiosToken,axiosPublic} = useAxios();
       const response = await axiosToken(`/auth/logout`);
       console.log("loginoutApiden = ",response);
       dispatch(logoutSuccess());
+      dispatch(deleteFirmsLogout());
       toastSuccessNotify("You have been logged out!");
       navigate("/");
     } catch (error) {
       toastErrorNotify("Log out failed!!");
-      dispatch(fetchFail());
+      dispatch(fetchLoginFail());
       console.log(error);
     }
   };

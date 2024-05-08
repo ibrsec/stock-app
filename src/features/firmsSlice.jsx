@@ -12,15 +12,14 @@ const firmsSlice = createSlice({
   reducers: {
     fetchFirmStart: (state) => {
       state.loading = true;
+      state.error = false;
     },
     firmsSuccess:(state,{payload})=>{
         state.loading = false;
         state[payload.path] = payload.data.data;
-
     },
     successWitoutPayload: (state)=> {
-        state.loading = false;
-
+        state.loading = false; 
     },
     // deleteSuccess:(state,{payload})=> {
     //     state.loading = false;
@@ -29,12 +28,21 @@ const firmsSlice = createSlice({
     // postNewDataSuccess:(state)=>{
     //     state.loading = false;
     // },
-    fetchFirmEnd: (state) => {
+    fetchFirmFail: (state) => {
       state.loading = false;
       state.error = true;
     },
+    deleteFirmsLogout : (state)=>{
+      state.firms = []
+      
+    }
   },
 });
 
-export const {fetchFirmStart,fetchFirmEnd,firmsSuccess,successWitoutPayload} = firmsSlice.actions;
+export const {fetchFirmStart,fetchFirmFail,firmsSuccess,successWitoutPayload,deleteFirmsLogout} = firmsSlice.actions;
 export default firmsSlice.reducer;
+
+
+ 
+//todo .env  to .env.local
+//todo css

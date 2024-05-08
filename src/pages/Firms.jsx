@@ -1,15 +1,17 @@
 import { useEffect } from "react"
 import useStockRequest from "../services/useStockRequest";
-import { Box, Typography } from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 import FirmCard from "../components/firms/FirmCard";
 import { useSelector } from "react-redux";
-import NewFirm from "../components/firms/NewFirm";
+import NewFirm from "../components/firms/NewFirm"; 
 
  
 
 const Firms = () => {
 const {getDataApi} = useStockRequest();
 const firms = useSelector((state)=>state.firms.firms)
+const error = useSelector((state)=>state.firms.error)
+console.log(error);
   useEffect(()=>{
     getDataApi("firms");
   },[])
@@ -22,7 +24,8 @@ const firms = useSelector((state)=>state.firms.firms)
       <Typography variant='h3' marginy={2} >Firms</Typography>
       {/* New Firm button */}
     <NewFirm />
-
+    {error && <Alert severity="error" sx={{marginBottom:"25px"}}>Couldn't get the firms!!</Alert>}
+    
       {/* Firms List */}
       <Box display="flex" flexWrap='wrap' gap={2} justifyContent="center" alignItems="center"   marginy={5}>
        {firms?.map(firm => <FirmCard key={firm._id} {...firm} />)}
