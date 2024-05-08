@@ -27,10 +27,10 @@ const style = {
   const EditFirm = ({firm}) => {
     const { address, _id, phone, image, name } = firm; 
     const newFirmSchema = object({
-        name: string().max(20, "Max 20 character"),
+        name: string().max(40, "Max 20 character"),
         phone: number("Must be a number"),
-        address: string().max(50, "Max 50 character"),
-        image: string().url().nullable().max(150, "Max 150 character"),
+        address: string().max(250, "Max 50 character"),
+        image: string().url().nullable().max(250, "Max 150 character"),
       });
 
 
@@ -44,7 +44,7 @@ const style = {
   
     return (
       <span> 
-          <Button size="small" onClick={handleOpen}><BorderColorIcon /></Button>
+          <Button size="small" variant="contained" onClick={handleOpen}><BorderColorIcon /></Button>
         <Modal
           open={open}
           onClose={handleClose}

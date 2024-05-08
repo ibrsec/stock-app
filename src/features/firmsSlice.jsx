@@ -44,5 +44,5 @@ export default firmsSlice.reducer;
 
 
  
-//todo .env  to .env.local
+ 
 //todo css

@@ -9,7 +9,7 @@ import login from "../assets/login.jpg";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
+import { Button, CssBaseline } from "@mui/material";
 import { Form, Formik } from "formik";
 import { object, string } from "yup";
 import useApiRequests from "../services/useApiRequests";
@@ -35,7 +35,9 @@ const Login = () => {
   });
 
   return (
-    <Container maxWidth="lg">
+    <Container   maxWidth={false} sx={{backgroundColor:"whiteSpec.main"}}>
+      <CssBaseline />
+    <Container maxWidth="lg"  >
       <Grid
         container
         justifyContent="center"
@@ -46,9 +48,19 @@ const Login = () => {
         }}
       >
         <Grid item xs={12} mb={3}>
-          <Typography variant="h3" color="primary" align="center">
-            STOCK APP
-          </Typography>
+          {/* <Typography variant="h3" align="center" color="greenSpec.main" fontWeight={550}>
+            ULTRA STOCK APP
+          </Typography> */}
+
+
+          <Box display="flex" gap={1} alignItems="center" justifyContent="center"   noWrap component="div"sx={{paddingTop:"20px"}}  >
+            <Box sx={{width:"35px",height:"35px",borderRadius:"50%",backgroundColor:"primary.dark",position:"relative",bottom:"1.7px"}} ></Box>
+            <Typography variant="h3" color="#84c3b7" fontWeight="600">Stock</Typography>
+            <Typography variant="h3" color="#568a75" fontWeight="600">App</Typography>
+             
+          </Box>
+
+
 
           <Typography component="p" color="primary" align="right">
             test4@test.com
@@ -61,19 +73,19 @@ const Login = () => {
         <Grid item xs={12} sm={10} md={6}>
           <Avatar
             sx={{
-              backgroundColor: "secondary.light",
+              backgroundColor: "blueSpec.main",
               m: "auto",
               width: 40,
               height: 40,
             }}
           >
-            <LockIcon size="30" />
+            <LockIcon size="30"  />
           </Avatar>
           <Typography
             variant="h4"
             align="center"
             mb={4}
-            color="secondary.light"
+            color="primary.light"
           >
             Login
           </Typography>
@@ -156,7 +168,8 @@ const Login = () => {
                   <Button
                     variant="contained"
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting} 
+                    sx={{backgroundColor:"#545A4F"}}
                   >
                     Submit
                   </Button>
@@ -165,8 +178,8 @@ const Login = () => {
             )}
           </Formik>
 
-          <Box sx={{ textAlign: "center", mt: 2 }}>
-            <Link to="/register">Do you have not an account?</Link>
+          <Box sx={{ textAlign: "center", mt: 2,"& a":{color:"blueSpec.main"},"& a:hover":{color:"greenSpec.main"} }}>
+            <Link to="/register" >Do you have not an account?</Link>
           </Box>
         </Grid>
 
@@ -176,6 +189,7 @@ const Login = () => {
           </Container>
         </Grid>
       </Grid>
+    </Container>
     </Container>
   );
 };

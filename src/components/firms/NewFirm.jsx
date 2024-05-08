@@ -1,11 +1,10 @@
  
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button"; 
 import Modal from "@mui/material/Modal";
 import { Form, Formik } from "formik";
 import { TextField } from "@mui/material";
-import { number, object, string } from "yup";
+import {   object, string } from "yup";
 import useStockRequest from "../../services/useStockRequest";
 import { toastWarnNotify } from "../../helper/ToastNotify";
 import { useState } from "react";
@@ -24,10 +23,10 @@ const style = {
 
 const NewFirmModal = () => {
   const newFirmSchema = object({
-    name: string().max(20, "Max 20 character"),
+    name: string().max(40, "Max 20 character"),
     phone: string().max(20, "Max 20 character"),
-    address: string().max(50, "Max 50 character"),
-    image: string().url().nullable().max(150, "Max 150 character"),
+    address: string().max(250, "Max 50 character"),
+    image: string().url().nullable().max(250, "Max 150 character"),
   });
 
   const { postNewDataApi } = useStockRequest();

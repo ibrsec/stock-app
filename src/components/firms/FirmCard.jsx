@@ -13,9 +13,9 @@ import EditFirm from "./EditFirm";
 const FirmCard = ({ address, _id, phone, image, name }) => {
      
   return (  
-    <Card sx={{width: 345,height:380,paddingLeft:"15px" ,paddingRight:"15px"}} > 
+    <Card sx={{width: 345,height:380,paddingLeft:"15px" ,paddingRight:"15px",display:"flex",flexDirection:"column",justifyContent:"space-between",paddingBottom:"15px"}} > 
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h5" component="div" color="greenSpec.main">
           {name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -34,12 +34,12 @@ const FirmCard = ({ address, _id, phone, image, name }) => {
         align="center"
         component="p"
         variant="p"
-        color="text.secondary"
+        color="greenSpec.main"
       >
         {phone}
       </Typography>
       <CardActions>
-        <Box component="div" margin="auto">
+        <Box component="div" margin="auto" display='flex' alignItems="center" gap={1}>
             <DeleteFirm firmName={name} id={_id} />
            <EditFirm firm={{ address, _id, phone, image, name }}/>
           

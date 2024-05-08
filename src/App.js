@@ -11,11 +11,22 @@ function App() {
   const theme = createTheme({
     palette: {
       primary: {
-        main: grey["900"],
+        main: "#545A4F",
+        dark: "#293124",
       },
       secondary: {
-        main: blueGrey["900"],
+        // main: blueGrey["900"],
+        main: grey["900"],
       },
+      blueSpec:{
+        main:"#84c3b7"
+      },
+      greenSpec:{
+        main:"#568a75"
+      },
+      whiteSpec:{
+        main:"#fcf3dc"
+      }
     },
   });
   return (

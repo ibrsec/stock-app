@@ -77,6 +77,7 @@ function Dashboard(props) {
   const currentUser = true;
   const { logoutApi } = useApiRequests();
   const tokenGlobal = useSelector((state) => state.auth.token);
+  const username = useSelector((state) => state.auth.user);
  
    
   const handleLogout = () => {
@@ -129,13 +130,13 @@ function Dashboard(props) {
     window !== undefined ? () => window().document.body : undefined
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{minHeight:"100vh", display: "flex",backgroundColor:"#fcf3dc","& .MuiButtonBase-root:hover":{color:"blueSpec.main"}}}>
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          ml: { sm: `${drawerWidth}px` },backgroundColor:"secondary.main"
         }}
       >
         <Toolbar>
@@ -148,24 +149,33 @@ function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            Stock App
-          </Typography>
+          <Box display="flex" gap={1} alignItems="center" justifyContent="flex-start"   noWrap component="div" sx={{ flexGrow: 1 }}>
+            <Box sx={{width:"20px",height:"20px",borderRadius:"50%",backgroundColor:"whiteSpec.main",position:"relative",bottom:"1.7px"}} ></Box>
+            <Typography variant="h6" color="#84c3b7" fontWeight="600">Stock</Typography>
+            <Typography variant="h6" color="#568a75" fontWeight="600">App</Typography>
+             
+          </Box>
           
           {currentUser && (
-            <Button color="inherit" onClick={handleLogout}>
+            <Box position="relative">
+              
+            <Button color="inherit" onClick={handleLogout} sx={{fontWeight:"600",fontSize:"1.1rem"}}>
               Logout
             </Button>
+            <Typography fontSize={13} position="absolute" bottom={-8} right={8} whiteSpace="nowrap" color="blueSpec.main">Welcome <Typography fontSize="inherit" component="span"  color="whiteSpec.main">{username}</Typography> </Typography>
+            </Box>
           )}
         </Toolbar>
-      </AppBar>
+      </AppBar >
       <Box
+      
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
+         
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -179,7 +189,7 @@ function Dashboard(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
-              backgroundColor:'secondary.main'
+              backgroundColor:'primary.dark'
             },
           }}
         >
@@ -192,7 +202,7 @@ function Dashboard(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
-              backgroundColor:'secondary.main'
+              backgroundColor:'primary.dark'
             },
           }}
           open

@@ -1,4 +1,4 @@
-import axios from "axios";
+ 
 import {
   toastErrorNotify,
   toastSuccessNotify,
@@ -21,10 +21,8 @@ const useApiRequests = () => {
   const navigate = useNavigate();
 const {axiosToken,axiosPublic} = useAxios();
 
-  const loginApi = async (userData) => {
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const loginApi = async (userData) => {     
      
-
     dispatch(fetchLoginStart());
     try {
       // const { data } = await axios.post(`${BASE_URL}/auth/login`, userData);

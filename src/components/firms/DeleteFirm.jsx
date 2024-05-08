@@ -47,7 +47,7 @@ const DeleteFirm = ({firmName,id}) => {
   return (
     <span>
          
-        <Button size="small" onClick={handleOpen}><DeleteIcon /></Button>
+        <Button variant="contained" size="small" onClick={handleOpen}><DeleteIcon /></Button>
       <Modal
         open={open}
         onClose={handleClose}

@@ -12,11 +12,12 @@ import TextField from "@mui/material/TextField";
 import { Form, Formik } from "formik";
 import { object, string } from "yup";
 import useApiRequests from "../services/useApiRequests";
+import { CssBaseline } from "@mui/material";
 
 const Register = () => {
   const navigate = useNavigate();
 
-  const {registerApi} = useApiRequests();
+  const { registerApi } = useApiRequests();
 
   const registerSchema = object({
     username: string()
@@ -45,176 +46,204 @@ const Register = () => {
       ),
   });
   return (
-    <Container maxWidth="lg">
-      <Grid
-        container
-        justifyContent="center"
-        direction="row-reverse"
-        rowSpacing={{ sm: 3 }}
-        sx={{
-          height: "100vh",
-          p: 2,
-        }}
-      >
-        <Grid item xs={12}>
-          <Typography variant="h3" color="primary" align="center">
+    <Container maxWidth={false}   sx={{minHeight:"102.7vh", backgroundColor: "whiteSpec.main" }}>
+      <Container maxWidth="lg">
+      <CssBaseline />
+        <Grid
+          container
+          justifyContent="center"
+          direction="row-reverse"
+          rowSpacing={{ sm: 3 }}
+          sx={{
+            height: "100vh",
+            p: 2,
+          }}
+        >
+          <Grid item xs={12}>
+            {/* <Typography variant="h3" color="primary" align="center">
             STOCK APP
-          </Typography>
+          </Typography> */}
+
+            <Box
+              display="flex"
+              gap={1}
+              alignItems="center"
+              justifyContent="center"
+              noWrap
+              component="div"
+              sx={{ paddingTop: "20px" }}
+            >
+              <Box
+                sx={{
+                  width: "35px",
+                  height: "35px",
+                  borderRadius: "50%",
+                  backgroundColor: "primary.dark",
+                  position: "relative",
+                  bottom: "1.7px",
+                }}
+              ></Box>
+              <Typography variant="h3" color="#84c3b7" fontWeight="600">
+                Stock
+              </Typography>
+              <Typography variant="h3" color="#568a75" fontWeight="600">
+                App
+              </Typography>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12} sm={10} md={6}>
+            <Avatar
+              sx={{
+                backgroundColor: "blueSpec.main",
+                m: "auto",
+                width: 40,
+                height: 40,
+              }}
+            >
+              <LockIcon size="30" />
+            </Avatar>
+            <Typography
+              variant="h4"
+              align="center"
+              mb={2}
+              color="secondary.light"
+            >
+              Register
+            </Typography>
+            <Formik
+              initialValues={{
+                username: "",
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: "",
+              }}
+              validationSchema={registerSchema}
+              onSubmit={(values, actions) => {
+                //? check values
+                //? post (register)
+                //? show result toastify
+                //? global states
+                //? navigate to stock
+                //? reset form
+
+                //? check values
+                console.log(values);
+
+                //? post (register)
+                //? show result toastify
+                //? global states
+                //? navigate to stock
+                registerApi(values);
+
+                //?reset Form
+                actions.resetForm();
+                actions.setSubmitting(false);
+              }}
+            >
+              {({
+                values,
+                handleChange,
+                handleBlur,
+                touched,
+                errors,
+                isSubmitting,
+              }) => (
+                <Form>
+                  <Box
+                    sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+                  >
+                    <TextField
+                      label="User Name"
+                      name="username"
+                      id="userName"
+                      type="text"
+                      variant="outlined"
+                      value={values.username}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.username && Boolean(errors.username)}
+                      helperText={errors.username}
+                    />
+                    <TextField
+                      label="First Name"
+                      name="firstName"
+                      id="firstName"
+                      type="text"
+                      variant="outlined"
+                      value={values.firstName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.firstName && Boolean(errors.firstName)}
+                      helperText={errors.firstName}
+                    />
+                    <TextField
+                      label="Last Name"
+                      name="lastName"
+                      id="last_name"
+                      type="text"
+                      variant="outlined"
+                      value={values.lastName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.lastName && Boolean(errors.lastName)}
+                      helperText={errors.lastName}
+                    />
+                    <TextField
+                      label="Email"
+                      name="email"
+                      id="email"
+                      type="email"
+                      variant="outlined"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.email && Boolean(errors.email)}
+                      helperText={errors.email}
+                    />
+                    <TextField
+                      label="password"
+                      name="password"
+                      id="password"
+                      type="password"
+                      variant="outlined"
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.password && Boolean(errors.password)}
+                      helperText={errors.password}
+                    />
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      size="large"
+                      disabled={isSubmitting}
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                </Form>
+              )}
+            </Formik>
+
+            <Box sx={{ textAlign: "center", mt: 2,"& a":{color:"blueSpec.main"},"& a:hover":{color:"greenSpec.main"} }}>
+              <Link to="/">Do you have an account?</Link>
+            </Box>
+          </Grid>
+
+          <Grid item xs={0} sm={7} md={6}>
+            <Container>
+              <img src={image} alt="" />
+            </Container>
+          </Grid>
         </Grid>
-
-        <Grid item xs={12} sm={10} md={6}>
-          <Avatar
-            sx={{
-              backgroundColor: "secondary.light",
-              m: "auto",
-              width: 40,
-              height: 40,
-            }}
-          >
-            <LockIcon size="30" />
-          </Avatar>
-          <Typography
-            variant="h4"
-            align="center"
-            mb={2}
-            color="secondary.light"
-          >
-            Register
-          </Typography>
-          <Formik
-            initialValues={{
-              username: "",
-              firstName: "",
-              lastName: "",
-              email: "",
-              password: "",
-            }}
-            validationSchema={registerSchema}
-            onSubmit={(values, actions) => {
-              //? check values
-              //? post (register)
-              //? show result toastify
-              //? global states
-              //? navigate to stock
-              //? reset form
-
-
-
-              //? check values
-              console.log(values);
-
-              //? post (register)
-              //? show result toastify
-              //? global states
-              //? navigate to stock
-              registerApi(values);
-
-
-
-
-
-              //?reset Form
-              actions.resetForm();
-              actions.setSubmitting(false);
-            }}
-          >
-            {({
-              values,
-              handleChange,
-              handleBlur,
-              touched,
-              errors,
-              isSubmitting,
-            }) => (
-              <Form>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                  <TextField
-                    label="User Name"
-                    name="username"
-                    id="userName"
-                    type="text"
-                    variant="outlined"
-                    value={values.username}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.username && Boolean(errors.username)}
-                    helperText={errors.username}
-                  />
-                  <TextField
-                    label="First Name"
-                    name="firstName"
-                    id="firstName"
-                    type="text"
-                    variant="outlined"
-                    value={values.firstName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.firstName && Boolean(errors.firstName)}
-                    helperText={errors.firstName}
-                  />
-                  <TextField
-                    label="Last Name"
-                    name="lastName"
-                    id="last_name"
-                    type="text"
-                    variant="outlined"
-                    value={values.lastName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.lastName && Boolean(errors.lastName)}
-                    helperText={errors.lastName}
-                  />
-                  <TextField
-                    label="Email"
-                    name="email"
-                    id="email"
-                    type="email"
-                    variant="outlined"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.email && Boolean(errors.email)}
-                    helperText={errors.email}
-                  />
-                  <TextField
-                    label="password"
-                    name="password"
-                    id="password"
-                    type="password"
-                    variant="outlined"
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.password && Boolean(errors.password)}
-                    helperText={errors.password}
-                  />
-                  <Button type="submit" variant="contained" size="large" disabled={isSubmitting}>
-                    Submit
-                  </Button>
-                </Box>
-              </Form>
-            )}
-          </Formik>
-
-          <Box sx={{ textAlign: "center", mt: 2 }}>
-            <Link to="/">Do you have an account?</Link>
-          </Box>
-        </Grid>
-
-        <Grid item xs={0} sm={7} md={6}>
-          <Container>
-            <img src={image} alt="" />
-          </Container>
-        </Grid>
-      </Grid>
+      </Container>
     </Container>
   );
 };
 
 export default Register;
-
-
-
 
 // {username: 'testba', firstName: 'testba', lastName: 'testba', email: 'testba@test.com', password: 'Ba10sec45?'}
 // {username: 'test1', firstName: 'test1', lastName: 'test1', email: 'test1@test.com', password: 'testTEST?1'}
