@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   firms: [],
   brands:[],
+  products:[],
+  categories:[],
   loading: false,
   error: false,
 };
@@ -35,6 +37,9 @@ const stockSlice = createSlice({
     },
     deleteStockLogout : (state)=>{
       state.firms = []
+      state.brands=[]
+      state.products=[]
+      state.categories=[]
       
     }
   },

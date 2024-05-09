@@ -14,8 +14,8 @@ const Home = () => {
           <label htmlFor="brands">Brands</label>
         </li>
         <li>
-          <input type="checkbox" name="firms" id="purchases" />
-          <label htmlFor="purchases">Purchases</label>
+          <input type="checkbox" name="firms" id="purchases"checked />
+          <label htmlFor="purchases">Products --- except - delete,main filter funcs</label>
         </li>
         <li>
           <input type="checkbox" name="firms" id="Sales" />
@@ -23,7 +23,7 @@ const Home = () => {
         </li>
         <li>
           <input type="checkbox" name="firms" id="Products" />
-          <label htmlFor="Products">Products</label>
+          <label htmlFor="Products">Purchases</label>
         </li>
         <li>
           <input type="checkbox" name="firms" id="Dashboard" />
