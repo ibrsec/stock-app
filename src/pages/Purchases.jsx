@@ -115,7 +115,7 @@ export default function Purchases() {
 
       {error && (
         <Alert severity="error" sx={{ marginBottom: "25px" }}>
-          Couldn't get the Products!!
+          Couldn't get the Purchases!!
         </Alert>
       )}
 
