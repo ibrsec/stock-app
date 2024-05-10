@@ -11,6 +11,7 @@ import NewPurchase from "../components/purchases/NewPurchase.jsx";
 import EditPurchase from "../components/purchases/EditPurchase.jsx";
 import DeletePurchase from "../components/purchases/DeletePurchase.jsx";
 import NewSale from "../components/sales/NewSale.jsx";
+import EditSale from "../components/sales/EditSale.jsx";
 const columns = [
   { field: "date", headerName: "Date", width: 150, flex: 1 }, 
   { field: "brand", headerName: "Brand", width: 130, flex: 1 },
@@ -50,7 +51,7 @@ const columns = [
         gap={1}
         flexWrap="nowrap"
       >
-        <EditPurchase item={params.row.actions} />
+        <EditSale item={params.row.actions} id={params.row.actions._id} />
         <DeletePurchase id={params.row.actions._id} />
       </Box>
     ),
