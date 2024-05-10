@@ -12,6 +12,7 @@ import EditPurchase from "../components/purchases/EditPurchase.jsx";
 import DeletePurchase from "../components/purchases/DeletePurchase.jsx";
 import NewSale from "../components/sales/NewSale.jsx";
 import EditSale from "../components/sales/EditSale.jsx";
+import DeleteSale from "../components/sales/DeleteSale.jsx";
 const columns = [
   { field: "date", headerName: "Date", width: 150, flex: 1 }, 
   { field: "brand", headerName: "Brand", width: 130, flex: 1 },
@@ -52,7 +53,7 @@ const columns = [
         flexWrap="nowrap"
       >
         <EditSale item={params.row.actions} id={params.row.actions._id} />
-        <DeletePurchase id={params.row.actions._id} />
+        <DeleteSale id={params.row.actions._id} />
       </Box>
     ),
     sortable: false,
