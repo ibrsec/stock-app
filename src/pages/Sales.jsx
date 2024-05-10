@@ -10,6 +10,7 @@ import SkeltonTable from "../components/SkeltonTable.jsx";
 import NewPurchase from "../components/purchases/NewPurchase.jsx";
 import EditPurchase from "../components/purchases/EditPurchase.jsx";
 import DeletePurchase from "../components/purchases/DeletePurchase.jsx";
+import NewSale from "../components/sales/NewSale.jsx";
 const columns = [
   { field: "date", headerName: "Date", width: 150, flex: 1 }, 
   { field: "brand", headerName: "Brand", width: 130, flex: 1 },
@@ -108,7 +109,7 @@ export default function Sales() {
   console.log(rows);
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <NewPurchase />
+      <NewSale />
 
       {error && (
         <Alert severity="error" sx={{ marginBottom: "25px" }}>
