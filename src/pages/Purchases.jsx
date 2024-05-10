@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import EditProduct from "../components/products/EditProduct.jsx";
 import DeleteProduct from "../components/products/DeleteProduct.jsx";
 import SkeltonTable from "../components/SkeltonTable.jsx";
+import NewPurchase from "../components/purchases/NewPurchase.jsx";
 const columns = [
   { field: "date", headerName: "Date", width: 150, flex: 1 },
   { field: "firm", headerName: "Firm", width: 130, flex: 1 },
@@ -109,7 +110,7 @@ export default function Purchases() {
   console.log(rows);
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <NewProduct />
+      <NewPurchase />
 
       {error && (
         <Alert severity="error" sx={{ marginBottom: "25px" }}>
