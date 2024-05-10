@@ -71,11 +71,20 @@ const columns = [
 // ];
 
 export default function Purchases() {
-  const purchases = useSelector((state) => state.stock.purchases);
-  const error = useSelector((state) => state.stock.error);
-  const loading = useSelector((state) => state.stock.loading);
-
+  
   const { getDataApi } = useStockRequest();
+  
+  useEffect(() => {
+    getDataApi("products");
+    getDataApi("brands");
+    getDataApi("firms");
+    getDataApi("purchases");
+  }, []);
+  
+  
+  const purchases = useSelector((state) => state.stock.purchases);
+  const loading = useSelector((state) => state.stock.loading);
+  const error = useSelector((state) => state.stock.error);
 
   const [filterModel, setFilterModel] = useState({
     items: [],
@@ -83,12 +92,8 @@ export default function Purchases() {
     quickFilterValues: [""],
   });
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
-  useEffect(() => {
-    getDataApi("products");
-    getDataApi("brands");
-    getDataApi("firms");
-    getDataApi("purchases");
-  }, []);
+
+  
   console.log(purchases);
   const rows = purchases?.map((item) => {
     return {
