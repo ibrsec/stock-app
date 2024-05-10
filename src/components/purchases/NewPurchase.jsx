@@ -21,19 +21,17 @@ const style = {
   p: 4,
 };
 
-const NewProductModal = () => {
-  const newProductSchema = object({
-    name: string().max(40, "Max 20 character"), 
-  });
-  const categories = useSelector((state) => state.stock.categories);
+const NewPurchase = () => { 
+  const firms = useSelector((state) => state.stock.firms);
   const brands = useSelector((state) => state.stock.brands);
+  const products = useSelector((state) => state.stock.products);
   const { postNewDataApi } = useStockRequest();
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    toastWarnNotify("Adding is Cancelled");
+    toastWarnNotify("Adding new Brand is Cancelled");
   };
 
   return (
@@ -44,7 +42,7 @@ const NewProductModal = () => {
         onClick={handleOpen}
         sx={{ marginBottom: "25px" }}
       >
-        NEW PRODUCT
+        NEW PURCHASE
       </Button>
 
       <Modal
@@ -56,11 +54,12 @@ const NewProductModal = () => {
         <Box sx={style}>
           <Formik
             initialValues={{
-              categoryId:"",
+              firmId:"",
               brandId:"",
-              name: "", 
-            }}
-            validationSchema={newProductSchema}
+              productId:"",
+              quantity: "", 
+              price: "", 
+            }} 
             onSubmit={(values, actions) => {
               //? - [x]  form and values
               console.log(values);
@@ -68,7 +67,7 @@ const NewProductModal = () => {
               //? - [x]  post new firm api write-call
               //? - [x]  get firms after post
               //? - [x]  show the result error success
-              postNewDataApi("products", values);
+              postNewDataApi("purchases", values);
 
               //? - [x]  close the modal
               setOpen(false);
@@ -89,28 +88,28 @@ const NewProductModal = () => {
               <Form>
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                   <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                    <InputLabel id="purchase-brand-new-label">Firm</InputLabel>
                     <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Category"
-                      name="categoryId"
-                      value={values.categoryId}
+                      labelId="purchase-firm-new-label"
+                      id="purchase-firm-new"
+                      label="Firm"
+                      name="firmId"
+                      value={values.firmId}
                       onChange={handleChange}
                       required
 
                     >
-                        {categories?.map((item,index)=>(
+                        {firms?.map((item,index)=>(
                             <MenuItem key={index} value={item._id}>{item.name}</MenuItem>
 
                         ))} 
                     </Select>
                   </FormControl>
                   <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Brand</InputLabel>
+                    <InputLabel id="purchase-brand-new-label">Brand</InputLabel>
                     <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
+                      labelId="purchase-brand-new-label"
+                      id="purchase-brand-new"
                       label="Brand"
                       name="brandId"
                       value={values.brandId}
@@ -123,18 +122,45 @@ const NewProductModal = () => {
                         ))} 
                     </Select>
                   </FormControl>
+                  <FormControl fullWidth>
+                    <InputLabel id="purchase-product-new-label">Product</InputLabel>
+                    <Select
+                      labelId="purchase-product-new-label"
+                      id="purchase-product-new"
+                      label="Product"
+                      name="productId"
+                      value={values.productId}
+                      onChange={handleChange}
+                      required
+                    >
+                        {products?.map((item,index)=>(
+                            <MenuItem key={index} value={item._id}>{item.name}</MenuItem>
+
+                        ))} 
+                    </Select>
+                  </FormControl> 
                   <TextField
-                    label="Product Name"
+                    label="Quantity" 
+                    required 
+                    name="quantity" 
+                    id="quantity" 
+                    type="text" 
+                    variant="outlined" 
+                    value={values.quantity} 
+                    onChange={handleChange} 
+                    onBlur={handleBlur} 
+                    
+                  /> 
+                  <TextField
+                    label="Price"
                     required
-                    name="name"
-                    id="name"
+                    name="price"
+                    id="price"
                     type="text"
                     variant="outlined"
-                    value={values.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.name && Boolean(errors.name)}
-                    helperText={errors.name}
+                    value={values.price} 
+                    onChange={handleChange} 
+                    onBlur={handleBlur} 
                     
                   /> 
                   <Button
@@ -143,7 +169,7 @@ const NewProductModal = () => {
                     size="large"
                     disabled={isSubmitting}
                   >
-                    ADD BRAND
+                    ADD PURCHASE
                   </Button>
                 </Box>
               </Form>
@@ -155,4 +181,4 @@ const NewProductModal = () => {
   );
 };
 
-export default NewProductModal;
+export default NewPurchase;
