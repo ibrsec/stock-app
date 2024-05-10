@@ -55,7 +55,7 @@ const Login = () => {
               gap={1}
               alignItems="center"
               justifyContent="center"
-              noWrap
+               
               component="div"
               sx={{ paddingTop: "20px" }}
             >

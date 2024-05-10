@@ -27,7 +27,7 @@ function App() {
       whiteSpec:{
         main:"#fcf3dc"
       }
-    },
+    }, 
   });
   return (
     <div className="App">

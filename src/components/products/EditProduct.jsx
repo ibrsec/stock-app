@@ -2,13 +2,20 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { Form, Formik } from "formik";
-import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { object, string } from "yup";
 import useStockRequest from "../../services/useStockRequest";
 import { toastWarnNotify } from "../../helper/ToastNotify";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 const style = {
   position: "absolute",
   top: "50%",
@@ -21,31 +28,35 @@ const style = {
   p: 4,
 };
 
-const NewProductModal = () => {
-  const newProductSchema = object({
-    name: string().max(40, "Max 20 character"), 
+const EditProduct = ({ item }) => {
+  const { _id: id, categoryId, brandId, name } = item;
+ 
+  const EditProductSchema = object({
+    name: string().max(40, "Max 20 character"),
   });
   const categories = useSelector((state) => state.stock.categories);
   const brands = useSelector((state) => state.stock.brands);
-  const { postNewDataApi } = useStockRequest();
+  const { putEditApi } = useStockRequest();
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    toastWarnNotify("Adding new Brand is Cancelled");
+    toastWarnNotify("Editting is Cancelled");
   };
 
   return (
     <div>
-      <Button
-        variant="contained"
-        marginy={2}
+      <button
+        style={{
+          backgroundColor: "transparent",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
         onClick={handleOpen}
-        sx={{ marginBottom: "25px" }}
       >
-        NEW PRODUCT
-      </Button>
+        <BorderColorIcon />
+      </button>
 
       <Modal
         open={open}
@@ -56,11 +67,11 @@ const NewProductModal = () => {
         <Box sx={style}>
           <Formik
             initialValues={{
-              categoryId:"",
-              brandId:"",
-              name: "", 
+              categoryId: categoryId?._id,
+              brandId: brandId?._id,
+              name: name,
             }}
-            validationSchema={newProductSchema}
+            validationSchema={EditProductSchema}
             onSubmit={(values, actions) => {
               //? - [x]  form and values
               console.log(values);
@@ -68,7 +79,7 @@ const NewProductModal = () => {
               //? - [x]  post new firm api write-call
               //? - [x]  get firms after post
               //? - [x]  show the result error success
-              postNewDataApi("products", values);
+              putEditApi("products", id, values);
 
               //? - [x]  close the modal
               setOpen(false);
@@ -89,7 +100,9 @@ const NewProductModal = () => {
               <Form>
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                   <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                    <InputLabel id="demo-simple-select-label">
+                      Category
+                    </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
@@ -97,13 +110,12 @@ const NewProductModal = () => {
                       name="categoryId"
                       value={values.categoryId}
                       onChange={handleChange}
-                      required
-
                     >
-                        {categories?.map((item,index)=>(
-                            <MenuItem key={index} value={item._id}>{item.name}</MenuItem>
-
-                        ))} 
+                      {categories?.map((item, index) => (
+                        <MenuItem key={index} value={item._id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                   <FormControl fullWidth>
@@ -115,12 +127,12 @@ const NewProductModal = () => {
                       name="brandId"
                       value={values.brandId}
                       onChange={handleChange}
-                      required
                     >
-                        {brands?.map((item,index)=>(
-                            <MenuItem key={index} value={item._id}>{item.name}</MenuItem>
-
-                        ))} 
+                      {brands?.map((item, index) => (
+                        <MenuItem key={index} value={item._id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                   <TextField
@@ -135,15 +147,14 @@ const NewProductModal = () => {
                     onBlur={handleBlur}
                     error={touched.name && Boolean(errors.name)}
                     helperText={errors.name}
-                    
-                  /> 
+                  />
                   <Button
                     type="submit"
                     variant="contained"
                     size="large"
                     disabled={isSubmitting}
                   >
-                    ADD BRAND
+                    UPDATE PRODUCT
                   </Button>
                 </Box>
               </Form>
@@ -155,4 +166,4 @@ const NewProductModal = () => {
   );
 };
 
-export default NewProductModal;
+export default EditProduct;

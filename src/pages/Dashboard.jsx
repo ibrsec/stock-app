@@ -149,7 +149,7 @@ function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Box display="flex" gap={1} alignItems="center" justifyContent="flex-start"   noWrap component="div" sx={{ flexGrow: 1 }}>
+          <Box display="flex" gap={1} alignItems="center" justifyContent="flex-start"    component="div" sx={{ flexGrow: 1 }}>
             <Box sx={{width:"20px",height:"20px",borderRadius:"50%",backgroundColor:"whiteSpec.main",position:"relative",bottom:"1.7px"}} ></Box>
             <Typography variant="h6" color="#84c3b7" fontWeight="600">Stock</Typography>
             <Typography variant="h6" color="#568a75" fontWeight="600">App</Typography>
