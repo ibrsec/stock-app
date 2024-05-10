@@ -10,23 +10,23 @@ const Home = () => {
           <label htmlFor="firms">Firms</label>
         </li>
         <li>
-          <input type="checkbox" name="firms" id="brands" checked/>
+          <input type="checkbox" name="brands" id="brands" checked/>
           <label htmlFor="brands">Brands</label>
         </li>
         <li>
-          <input type="checkbox" name="firms" id="purchases"checked />
-          <label htmlFor="purchases">Products --- except - delete,main filter funcs</label>
+          <input type="checkbox" name="products" id="purchases"checked />
+          <label htmlFor="purchases">Products </label>
         </li>
         <li>
-          <input type="checkbox" name="firms" id="Sales" />
+          <input type="checkbox" name="sales" id="Sales" checked/>
           <label htmlFor="Sales">Sales</label>
         </li>
         <li>
-          <input type="checkbox" name="firms" id="Products" />
+          <input type="checkbox" name="purchases" id="Products" checked/>
           <label htmlFor="Products">Purchases</label>
         </li>
         <li>
-          <input type="checkbox" name="firms" id="Dashboard" />
+          <input type="checkbox" name="dashboard" id="Dashboard" checked/>
           <label htmlFor="Dashboard">Dashboard</label>
         </li>
       </ul>
