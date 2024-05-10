@@ -33,7 +33,7 @@ const NewProductModal = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    toastWarnNotify("Adding new Brand is Cancelled");
+    toastWarnNotify("Adding is Cancelled");
   };
 
   return (

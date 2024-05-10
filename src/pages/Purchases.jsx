@@ -9,6 +9,7 @@ import EditProduct from "../components/products/EditProduct.jsx";
 import DeleteProduct from "../components/products/DeleteProduct.jsx";
 import SkeltonTable from "../components/SkeltonTable.jsx";
 import NewPurchase from "../components/purchases/NewPurchase.jsx";
+import EditPurchase from "../components/purchases/EditPurchase.jsx";
 const columns = [
   { field: "date", headerName: "Date", width: 150, flex: 1 },
   { field: "firm", headerName: "Firm", width: 130, flex: 1 },
@@ -50,7 +51,7 @@ const columns = [
         gap={1}
         flexWrap="nowrap"
       >
-        <EditProduct item={params.row.actions} />
+        <EditPurchase item={params.row.actions} />
         <DeleteProduct
           productName={params.row.actions.name}
           id={params.row.actions._id}
