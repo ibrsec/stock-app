@@ -1,8 +1,7 @@
- 
-import { DataGrid, GridToolbar } from "@mui/x-data-grid"; 
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import useStockRequest from "../services/useStockRequest.js";
 import { useSelector } from "react-redux";
-import { Alert, Box,   FormControlLabel, Switch } from "@mui/material";
+import { Alert, Box, FormControlLabel, Switch } from "@mui/material";
 import NewProduct from "../components/products/NewProduct.jsx";
 import { useEffect, useState } from "react";
 import EditProduct from "../components/products/EditProduct.jsx";
@@ -10,12 +9,12 @@ import DeleteProduct from "../components/products/DeleteProduct.jsx";
 import SkeltonTable from "../components/SkeltonTable.jsx";
 import NewPurchase from "../components/purchases/NewPurchase.jsx";
 import EditPurchase from "../components/purchases/EditPurchase.jsx";
+import DeletePurchase from "../components/purchases/DeletePurchase.jsx";
 const columns = [
   { field: "date", headerName: "Date", width: 150, flex: 1 },
   { field: "firm", headerName: "Firm", width: 130, flex: 1 },
   { field: "brand", headerName: "Brand", width: 130, flex: 1 },
   { field: "product", headerName: "Product", width: 130, flex: 1 },
-
 
   {
     field: "quantity",
@@ -52,16 +51,13 @@ const columns = [
         flexWrap="nowrap"
       >
         <EditPurchase item={params.row.actions} />
-        <DeleteProduct
-          productName={params.row.actions.name}
-          id={params.row.actions._id}
-        />
+        <DeletePurchase id={params.row.actions._id} />
       </Box>
     ),
     sortable: false,
   },
 ];
- 
+
 // const rows = [
 //   { id: 1, category: 'Snow', brand: 'Jon', name: 35 , actions:{_id:1,name:"anme",image:"https://lkmsdf.sdlfkm"}},
 //   { id: 2, category: 'Lannister', brand: 'Cersei', name: 42 , actions:{_id:1,name:"anme",image:"https://lkmsdf.sdlfkm"}},
@@ -97,15 +93,14 @@ export default function Purchases() {
   const rows = purchases?.map((item) => {
     return {
       id: item._id,
-      date:item.createdAt,
-      firm:item.firmId?.name,
+      date: item.createdAt,
+      firm: item.firmId?.name,
       brand: item.brandId?.name,
-      product:item.productId?.name,
+      product: item.productId?.name,
       quantity: item.quantity,
-      price:item.price,
-      amount:item.amount,
+      price: item.price,
+      amount: item.amount,
       actions: item,
-       
     };
   });
   console.log(rows);
@@ -155,7 +150,7 @@ export default function Purchases() {
             pageSizeOptions={[5, 10, 20, 100]}
             checkboxSelection
             // filterModel={filterModel}
-            // onFilterModelChange={setFilterModel}  
+            // onFilterModelChange={setFilterModel}
             // hideFooter
             // slots={{ toolbar: GridToolbar }}
             slotProps={{ toolbar: { showQuickFilter: true } }}
@@ -163,8 +158,6 @@ export default function Purchases() {
             onColumnVisibilityModelChange={(newModel) =>
               setColumnVisibilityModel(newModel)
             }
-
-
             slots={{ toolbar: GridToolbar }}
           />
           )
