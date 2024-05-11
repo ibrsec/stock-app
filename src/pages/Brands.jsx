@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import useStockRequest from '../services/useStockRequest'
 import { useSelector } from 'react-redux';
-import { Alert, Box, Typography } from '@mui/material';
+import { Alert, Box, Button, Typography } from '@mui/material';
 import SkeltonCards from '../components/SkeltonCards';
-import BrandCard from '../components/brands/BrandCard';
-import NewBrand from '../components/brands/NewBrand';
+import BrandCard from '../components/brands/BrandCard'; 
+import BrandModal from '../components/brands/BrandModal';
 
 const Brands = () => {
 
@@ -12,6 +12,13 @@ const Brands = () => {
   const error = useSelector((state)=>state.stock.error)
   const loading = useSelector((state)=>state.stock.loading)
   const brands = useSelector((state)=> state.stock.brands)
+  const [open, setOpen] = useState(false);
+  const [values,setValues] = useState( {
+    name: "", 
+    image: "",
+  })
+
+
 
   useEffect(()=>{
     getDataApi("brands")
@@ -23,7 +30,11 @@ const Brands = () => {
     <div>
       <Typography variant='h3' marginy={2} color="greenSpec.main" fontWeight="550" align="center">Brands</Typography>
       {/* New Firm button */}
-    <NewBrand />
+      <Button variant="contained" marginy={2} onClick={() => setOpen(true)} sx={{marginBottom:"25px"}}>
+        NEW BRAND
+      </Button>
+      <BrandModal open={open} setOpen={setOpen} values={values} setValues={setValues}/>
+     
     {error && <Alert severity="error" sx={{marginBottom:"25px"}}>Couldn't get the brands!!</Alert>}
     
     
@@ -32,7 +43,7 @@ const Brands = () => {
 <>
       {/* Firms List */}
       <Box display="flex" flexWrap='wrap' gap={2} justifyContent="center" alignItems="center"   marginy={5}>
-       {brands?.map(brand => <BrandCard key={brand._id} {...brand} />)}
+       {brands?.map(brand => <BrandCard key={brand._id} brand={brand} setValues={setValues} setOpen={setOpen} />)}
       </Box></>
     )}
     

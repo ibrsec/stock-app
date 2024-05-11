@@ -7,11 +7,16 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
  
 import { Box } from "@mui/material";
-import DeleteFirm from "./DeleteFirm";
-import EditFirm from "./EditFirm";
+import DeleteFirm from "./DeleteFirm"; 
 
-const FirmCard = ({ address, _id, phone, image, name }) => {
-     
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+
+const FirmCard = ({ firm,setOpen,setValues }) => {
+  const {address, _id, phone, image, name}= firm
+     const handleOpen = () => {
+      setOpen(true)
+      setValues(firm)
+     }
   return (  
     <Card sx={{width: 345,height:380,paddingLeft:"15px" ,paddingRight:"15px",display:"flex",flexDirection:"column",justifyContent:"space-between",paddingBottom:"15px"}} > 
       <CardContent>
@@ -41,8 +46,9 @@ const FirmCard = ({ address, _id, phone, image, name }) => {
       <CardActions>
         <Box component="div" margin="auto" display='flex' alignItems="center" gap={1}>
             <DeleteFirm firmName={name} id={_id} />
-           <EditFirm firm={{ address, _id, phone, image, name }}/>
-          
+          <Button size="small" variant="contained" onClick={handleOpen}><BorderColorIcon /></Button>
+
+           
         </Box>
       </CardActions>
     </Card>

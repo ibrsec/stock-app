@@ -7,11 +7,15 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
  
 import { Box } from "@mui/material";
-import DeleteBrand from "./DeleteBrand";
-import EditBrand from "./EditBrand";
+import DeleteBrand from "./DeleteBrand"; 
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
-const BrandCard = ({  _id, image, name }) => {
-     
+const BrandCard = ({ brand,setOpen,setValues }) => {
+     const {  _id, image, name } = brand;
+     const handleOpen = () => {
+      setOpen(true)
+      setValues(brand)
+     }
   return (  
     <Card sx={{width: 345,height:380,paddingLeft:"15px" ,paddingRight:"15px",display:"flex",flexDirection:"column",justifyContent:"space-between",paddingBottom:"15px"}} > 
       <CardContent>
@@ -31,8 +35,9 @@ const BrandCard = ({  _id, image, name }) => {
       <CardActions>
         <Box component="div" margin="auto" display='flex' alignItems="center" gap={1}>
             <DeleteBrand brandName={name} id={_id} />
-           <EditBrand firm={{   _id , image, name }}/>
-          
+            <Button size="small" variant="contained" onClick={handleOpen}><BorderColorIcon /></Button>
+
+            
         </Box>
       </CardActions>
     </Card>

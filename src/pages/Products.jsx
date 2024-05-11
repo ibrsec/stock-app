@@ -1,53 +1,25 @@
-import { DataGrid, GridToolbar } from "@mui/x-data-grid"; 
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import useStockRequest from "../services/useStockRequest.js";
 import { useSelector } from "react-redux";
-import { Alert, Box,   FormControlLabel, Switch } from "@mui/material";
+import { Alert, Box, Button, FormControlLabel, Switch } from "@mui/material";
 import NewProduct from "../components/products/NewProduct.jsx";
 import { useEffect, useState } from "react";
 import EditProduct from "../components/products/EditProduct.jsx";
 import DeleteProduct from "../components/products/DeleteProduct.jsx";
 import SkeltonTable from "../components/SkeltonTable.jsx";
-const columns = [
-  { field: "id", headerName: "ID", width: 70, flex: 1 },
-  { field: "category", headerName: "Category", width: 130, flex: 1 },
-  { field: "brand", headerName: "Brand", width: 130, flex: 1 },
-  { field: "name", headerName: "Name", width: 130, flex: 1 },
-  {
-    field: "stock",
-    headerName: "Stock",
-    type: "number",
-    width: 90,
-    flex: 1,
-  },
-  {
-    field: "actions",
-    headerName: "Actions",
-    width: 300,
-    flex: 1,
-    renderCell: (params) => (
-      <Box
-        display="flex"
-        alignItems="start"
-        justifyContent="start"
-        gap={1}
-        flexWrap="nowrap"
-      >
-        <EditProduct item={params.row.actions} />
-        <DeleteProduct
-          productName={params.row.actions.name}
-          id={params.row.actions._id}
-        />
-      </Box>
-    ),
-    sortable: false,
-  },
-];
- 
+import ProductModal from "../components/products/ProductModal.jsx";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 export default function DataTable() {
   const products = useSelector((state) => state.stock.products);
   const error = useSelector((state) => state.stock.error);
   const loading = useSelector((state) => state.stock.loading);
+  const [open, setOpen] = useState(false);
+  const [values, setValues] = useState({
+    categoryId: "",
+    brandId: "",
+    name: "",
+  });
 
   const { getDataApi } = useStockRequest();
 
@@ -73,10 +45,76 @@ export default function DataTable() {
       actions: item,
     };
   });
-  console.log(rows);
+  console.log("rows=", rows);
+  const columns = [
+    { field: "id", headerName: "ID", width: 70, flex: 1 },
+    { field: "category", headerName: "Category", width: 130, flex: 1 },
+    { field: "brand", headerName: "Brand", width: 130, flex: 1 },
+    { field: "name", headerName: "Name", width: 130, flex: 1 },
+    {
+      field: "stock",
+      headerName: "Stock",
+      type: "number",
+      width: 90,
+      flex: 1,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 300,
+      flex: 1,
+      renderCell: (params) => (
+        <Box
+          display="flex"
+          alignItems="start"
+          justifyContent="start"
+          gap={1}
+          flexWrap="nowrap"
+        >
+          <button
+            style={{
+              backgroundColor: "transparent",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setOpen(true);
+              setValues({
+                categoryId: params.row.actions?.categoryId?._id,
+                brandId: params.row.actions?.brandId?._id,
+                name: params.row.actions?.name,
+                _id: params.row.actions?._id,
+              });
+            }}
+          >
+            <BorderColorIcon />
+          </button>
+          <DeleteProduct
+            productName={params.row.actions.name}
+            id={params.row.actions._id}
+          />
+        </Box>
+      ),
+      sortable: false,
+    },
+  ];
+
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <NewProduct />
+      <Button
+        variant="contained"
+        marginy={2}
+        onClick={() => setOpen(true)}
+        sx={{ marginBottom: "25px" }}
+      >
+        NEW PRODUCT
+      </Button>
+      <ProductModal
+        open={open}
+        setOpen={setOpen}
+        values={values}
+        setValues={setValues}
+      />
 
       {error && (
         <Alert severity="error" sx={{ marginBottom: "25px" }}>
@@ -120,7 +158,7 @@ export default function DataTable() {
             pageSizeOptions={[5, 10, 20, 100]}
             checkboxSelection
             // filterModel={filterModel}
-            // onFilterModelChange={setFilterModel}  
+            // onFilterModelChange={setFilterModel}
             // hideFooter
             // slots={{ toolbar: GridToolbar }}
             slotProps={{ toolbar: { showQuickFilter: true } }}
@@ -128,8 +166,6 @@ export default function DataTable() {
             onColumnVisibilityModelChange={(newModel) =>
               setColumnVisibilityModel(newModel)
             }
-
-
             slots={{ toolbar: GridToolbar }}
           />
           )
