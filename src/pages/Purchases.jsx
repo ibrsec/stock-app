@@ -1,11 +1,8 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import useStockRequest from "../services/useStockRequest.js";
 import { useSelector } from "react-redux";
-import { Alert, Box, FormControlLabel, Switch } from "@mui/material";
-import NewProduct from "../components/products/NewProduct.jsx";
-import { useEffect, useState } from "react";
-import EditProduct from "../components/products/EditProduct.jsx";
-import DeleteProduct from "../components/products/DeleteProduct.jsx";
+import { Alert, Box, FormControlLabel, Switch } from "@mui/material"; 
+import { useEffect, useState } from "react"; 
 import SkeltonTable from "../components/SkeltonTable.jsx";
 import NewPurchase from "../components/purchases/NewPurchase.jsx";
 import EditPurchase from "../components/purchases/EditPurchase.jsx";
