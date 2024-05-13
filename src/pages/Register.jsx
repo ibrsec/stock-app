@@ -6,16 +6,19 @@ import image from "../assets/result.svg";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import TextField from "@mui/material/TextField";
 import { Form, Formik } from "formik";
 import { object, string } from "yup";
 import useApiRequests from "../services/useApiRequests";
 import { CardMedia, CssBaseline } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const Register = () => {
   const navigate = useNavigate();
+
+  const user = useSelector(state=>state.auth.user)
 
   const { registerApi } = useApiRequests();
 
@@ -45,7 +48,7 @@ const Register = () => {
         "must contain at least 1 special character - [@$!%*?&]"
       ),
   });
-  return (
+  return user ? <Navigate to="/stock" /> : (
     <Container maxWidth={false}   sx={{minHeight:"102.7vh", backgroundColor: "whiteSpec.main" }}>
       <Container maxWidth="lg">
       <CssBaseline />

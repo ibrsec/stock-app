@@ -1,58 +1,13 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import useStockRequest from "../services/useStockRequest.js";
 import { useSelector } from "react-redux";
-import { Alert, Box, FormControlLabel, Switch } from "@mui/material"; 
-import { useEffect, useState } from "react"; 
-import SkeltonTable from "../components/SkeltonTable.jsx"; 
-import NewSale from "../components/sales/NewSale.jsx";
-import EditSale from "../components/sales/EditSale.jsx";
+import { Alert, Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import SkeltonTable from "../components/SkeltonTable.jsx";
 import DeleteSale from "../components/sales/DeleteSale.jsx";
-const columns = [
-  { field: "date", headerName: "Date", width: 150, flex: 1 }, 
-  { field: "brand", headerName: "Brand", width: 130, flex: 1 },
-  { field: "product", headerName: "Product", width: 130, flex: 1 },
-
-  {
-    field: "quantity",
-    headerName: "Quantity",
-    type: "number",
-    width: 90,
-    flex: 1,
-  },
-  {
-    field: "price",
-    headerName: "Price",
-    type: "number",
-    width: 90,
-    flex: 1,
-  },
-  {
-    field: "amount",
-    headerName: "Amount",
-    type: "number",
-    width: 90,
-    flex: 1,
-  },
-  {
-    field: "actions",
-    headerName: "Actions",
-    width: 300,
-    flex: 1,
-    renderCell: (params) => (
-      <Box
-        display="flex"
-        alignItems="start"
-        justifyContent="start"
-        gap={1}
-        flexWrap="nowrap"
-      >
-        <EditSale item={params.row.actions} id={params.row.actions._id} />
-        <DeleteSale id={params.row.actions._id} />
-      </Box>
-    ),
-    sortable: false,
-  },
-];
+import SaleModal from "../components/sales/SalesModal.jsx";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import { Button } from "@mui/material";
 
 // const rows = [
 //   { id: 1, category: 'Snow', brand: 'Jon', name: 35 , actions:{_id:1,name:"anme",image:"https://lkmsdf.sdlfkm"}},
@@ -67,19 +22,24 @@ const columns = [
 // ];
 
 export default function Sales() {
-  
   const { getDataApi } = useStockRequest();
-  
+
   useEffect(() => {
     getDataApi("products");
-    getDataApi("brands"); 
+    getDataApi("brands");
     getDataApi("sales");
   }, []);
-  
-  
+
   const sales = useSelector((state) => state.stock.sales);
   const loading = useSelector((state) => state.stock.loading);
   const error = useSelector((state) => state.stock.error);
+  const [open, setOpen] = useState(false);
+  const [values, setValues] = useState({
+    brandId: "",
+    productId: "",
+    quantity: "",
+    price: "",
+  });
 
   const [filterModel, setFilterModel] = useState({
     items: [],
@@ -88,24 +48,113 @@ export default function Sales() {
   });
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
 
-  
-  console.log(sales);
-  const rows = sales?.map((item) => {
-    return {
-      id: item._id,
-      date: item.createdAt,
-      brand: item.brandId?.name,
-      product: item.productId?.name,
-      quantity: item.quantity,
-      price: item.price,
-      amount: item.amount,
-      actions: item,
-    };
-  });
-  console.log(rows);
+  console.log("sales:", sales);
+
+  const columns = [
+    { field: "createdAt", headerName: "Date", width: 150, flex: 1 },
+    {
+      field: "brand",
+      headerName: "Brand",
+      width: 130,
+      flex: 1,
+      valueGetter: (value, row) => row?.brandId?.name,
+    },
+    {
+      field: "product",
+      headerName: "Product",
+      width: 130,
+      flex: 1,
+      valueGetter: (value, row) => row?.productId?.name,
+    },
+
+    {
+      field: "quantity",
+      headerName: "Quantity",
+      type: "number",
+      width: 90,
+      flex: 1,
+    },
+    {
+      field: "price",
+      headerName: "Price",
+      type: "number",
+      width: 90,
+      flex: 1,
+    },
+    {
+      field: "amount",
+      headerName: "Amount",
+      type: "number",
+      width: 90,
+      flex: 1,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 300,
+      flex: 1,
+      renderCell: (params) => (
+        <Box
+          display="flex"
+          alignItems="start"
+          justifyContent="start"
+          gap={1}
+          flexWrap="nowrap"
+        >
+          <button
+            style={{
+              backgroundColor: "transparent",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setOpen(true);
+              setValues({
+                brandId: params?.row?.brandId?._id,
+                productId: params?.row?.productId?._id,
+                quantity: params?.row?.quantity,
+                price: params?.row?.price, 
+                _id: params.row?._id, 
+              });
+            }}
+          >
+            <BorderColorIcon />
+          </button>
+          <DeleteSale id={params?.row?._id} />
+        </Box>
+      ),
+      sortable: false,
+    },
+  ];
+  // const rows = sales?.map((item) => {
+  //   return {
+  //     id: item._id,
+  //     date: item.createdAt,
+  //     brand: item.brandId?.name,
+  //     product: item.productId?.name,
+  //     quantity: item.quantity,
+  //     price: item.price,
+  //     amount: item.amount,
+  //     actions: item,
+  //   };
+  // });
+  // console.log(rows);
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <NewSale />
+      <Button
+        variant="contained"
+        marginy={2}
+        onClick={() => setOpen(true)}
+        sx={{ marginBottom: "25px" }}
+      >
+        NEW SALE
+      </Button>
+      <SaleModal
+        open={open}
+        setOpen={setOpen}
+        values={values}
+        setValues={setValues}
+      />
 
       {error && (
         <Alert severity="error" sx={{ marginBottom: "25px" }}>
@@ -119,31 +168,14 @@ export default function Sales() {
         </Box>
       ) : (
         <>
-          <FormControlLabel
-            checked={columnVisibilityModel.id !== false}
-            onChange={(event) =>
-              setColumnVisibilityModel(() => ({ id: event.target.checked }))
-            }
-            control={<Switch color="primary" />}
-            label="Show ID column"
-          />
-          <FormControlLabel
-            checked={filterModel.quickFilterExcludeHiddenColumns}
-            onChange={(event) =>
-              setFilterModel((model) => ({
-                ...model,
-                quickFilterExcludeHiddenColumns: event.target.checked,
-              }))
-            }
-            control={<Switch color="primary" />}
-            label="Exclude hidden columns"
-          />
           <DataGrid
-            rows={rows}
+            autoHeight
+            rows={sales}
             columns={columns}
+            getRowId={(row) => row._id}
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+                paginationModel: { page: 0, pageSize: 10 },
               },
             }}
             pageSizeOptions={[5, 10, 20, 100]}
@@ -153,17 +185,10 @@ export default function Sales() {
             // hideFooter
             // slots={{ toolbar: GridToolbar }}
             slotProps={{ toolbar: { showQuickFilter: true } }}
-            columnVisibilityModel={columnVisibilityModel}
-            onColumnVisibilityModelChange={(newModel) =>
-              setColumnVisibilityModel(newModel)
-            }
             slots={{ toolbar: GridToolbar }}
           />
-          )
         </>
       )}
     </div>
   );
 }
-
- 

@@ -1,17 +1,16 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
-import { Form, Formik } from "formik";
-import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import useStockRequest from "../../services/useStockRequest";
 import { toastWarnNotify } from "../../helper/ToastNotify";
-import { useState } from "react";
 import { useSelector } from "react-redux";
-
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-
-
 
 const style = {
   position: "absolute",
@@ -25,32 +24,48 @@ const style = {
   p: 4,
 };
 
-const EditSale = ({item,id}) => { 
-    const {brandId,productId,quantity,price} = item; 
-  const brands = useSelector((state) => state.stock.brands);
-  const products = useSelector((state) => state.stock.products);
-  const { putEditApi } = useStockRequest();
+const SaleModal = ({ open, setOpen, values, setValues }) => {
+  const { postNewDataApi, putEditApi } = useStockRequest();
+  const {brands,products} = useSelector((state) => state.stock); 
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => {
+    setValues({
+      brandId: "",
+      productId: "",
+      quantity: "",
+      price: "",
+    });
     setOpen(false);
-    toastWarnNotify("Adding  is Cancelled");
+
+    toastWarnNotify("Adding new sale is Cancelled");
+  };
+  const handleChange = (e) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = () => {
+    //? - [x]  form and values
+    console.log(values);
+
+    //? - [x]  post new firm api write-call
+    //? - [x]  get firms after post
+    //? - [x]  show the result error success
+    if (values._id) {
+      putEditApi("sales", values._id, values);
+    } else {
+      postNewDataApi("sales", values);
+    }
+
+    //? - [x]  close the modal
+    setOpen(false);
+
+    //? [x] -reset form
   };
 
   return (
     <div>
-      <button
-        style={{
-          backgroundColor: "transparent",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-        onClick={handleOpen}
-      >
-        <BorderColorIcon />
-      </button>
-
       <Modal
         open={open}
         onClose={handleClose}
@@ -58,40 +73,12 @@ const EditSale = ({item,id}) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Formik
-            initialValues={{ 
-              brandId:brandId?._id,
-              productId:productId?._id,
-              quantity: quantity, 
-              price: price, 
-            }} 
-            onSubmit={(values, actions) => {
-              //? - [x]  form and values
-              console.log(values);
-
-              //? - [x]  post new firm api write-call
-              //? - [x]  get firms after post
-              //? - [x]  show the result error success
-              putEditApi("sales",id, values);
-
-              //? - [x]  close the modal
-              setOpen(false);
-
-              //? [x] -reset form
-              actions.resetForm();
-              actions.setSubmitting(false);
-            }}
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           >
-            {({
-              values,
-              handleChange,
-              handleBlur, 
-              isSubmitting,
-            }) => (
-              <Form>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                  
-                  <FormControl fullWidth>
+            <FormControl fullWidth>
                     <InputLabel id="purchase-brand-new-label">Brand</InputLabel>
                     <Select
                       labelId="purchase-brand-new-label"
@@ -133,8 +120,7 @@ const EditSale = ({item,id}) => {
                     type="text" 
                     variant="outlined" 
                     value={values.quantity} 
-                    onChange={handleChange} 
-                    onBlur={handleBlur} 
+                    onChange={handleChange}  
                     
                   /> 
                   <TextField
@@ -145,26 +131,17 @@ const EditSale = ({item,id}) => {
                     type="text"
                     variant="outlined"
                     value={values.price} 
-                    onChange={handleChange} 
-                    onBlur={handleBlur} 
+                    onChange={handleChange}  
                     
                   /> 
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    size="large"
-                    disabled={isSubmitting}
-                  >
-                    ADD SALE
-                  </Button>
-                </Box>
-              </Form>
-            )}
-          </Formik>
+            <Button type="submit" variant="contained" size="large">
+              {values._id ? "UPDATE SALE" : "ADD SALE"}
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </div>
   );
 };
 
-export default EditSale;
+export default SaleModal;

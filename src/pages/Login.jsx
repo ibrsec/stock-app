@@ -4,16 +4,20 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import LockIcon from "@mui/icons-material/Lock";
 import image from "../assets/result.svg";  
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button, CardMedia, CssBaseline } from "@mui/material";
 import { Form, Formik } from "formik";
 import { object, string } from "yup";
 import useApiRequests from "../services/useApiRequests";
+import { useSelector } from "react-redux";
 
 const Login = () => {
   const { loginApi } = useApiRequests();
+  const user = useSelector(state=>state.auth.user)
+  console.log(user);
+  console.log(Boolean(user));
 
   const loginSchema = object({
     email: string()
@@ -32,7 +36,7 @@ const Login = () => {
       ),
   });
 
-  return (
+  return user ? <Navigate to="/stock" /> :(
     <Container maxWidth={false} sx={{ backgroundColor: "whiteSpec.main" }}>
       <CssBaseline />
       <Container maxWidth="lg">
