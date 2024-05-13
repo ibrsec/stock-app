@@ -10,6 +10,7 @@ import Sales from "../pages/Sales";
 import Products from "../pages/Products";
 import Brands from "../pages/Brands";
 import Home from "../pages/Home";
+import NotFound from "../pages/NotFound";
 
 const AppRouter = () => {
   return (
@@ -27,6 +28,7 @@ const AppRouter = () => {
             <Route path="brands" element={<Brands />} />
           </Route>
         </Route>
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </BrowserRouter>
   );

@@ -54,4 +54,3 @@ export default stockSlice.reducer;
 
  
  
-//todo css
