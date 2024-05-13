@@ -1,8 +1,8 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import useStockRequest from "../services/useStockRequest.js";
-import { useSelector } from "react-redux"; 
-import { Alert, Box, Button, FormControlLabel, Switch } from "@mui/material"; 
-import { useEffect, useState } from "react";    
+import { useSelector } from "react-redux";
+import { Alert, Box, Button, FormControlLabel, Switch } from "@mui/material";
+import { useEffect, useState } from "react";
 import DeleteProduct from "../components/products/DeleteProduct.jsx";
 import SkeltonTable from "../components/SkeltonTable.jsx";
 import ProductModal from "../components/products/ProductModal.jsx";
@@ -22,8 +22,7 @@ export default function DataTable() {
   const { getDataApi } = useStockRequest();
 
   const [filterModel, setFilterModel] = useState({
-    items: [],
-    quickFilterExcludeHiddenColumns: true,
+    items: [], 
     quickFilterValues: [""],
   });
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
@@ -33,24 +32,36 @@ export default function DataTable() {
     getDataApi("categories");
   }, []);
   console.log(products);
-  const rows = products?.map((item) => {
-    return {
-      id: item._id,
-      category: item.categoryId?.name,
-      brand: item.brandId?.name,
-      name: item?.name,
-      stock: item.quantity,
-      actions: item,
-    };
-  });
-  console.log("rows=", rows);
+  // const rows = products?.map((item) => {
+  //   return {
+  //     id: item._id,
+  //     category: item.categoryId?.name,
+  //     brand: item.brandId?.name,
+  //     name: item?.name,
+  //     stock: item.quantity,
+  //     actions: item,
+  //   };
+  // });
+  // console.log("rows=", rows);
   const columns = [
-    { field: "id", headerName: "ID", width: 70, flex: 1 },
-    { field: "category", headerName: "Category", width: 130, flex: 1 },
-    { field: "brand", headerName: "Brand", width: 130, flex: 1 },
+    { field: "_id", headerName: "ID", width: 70, flex: 1 },
+    {
+      field: "category",
+      headerName: "Category",
+      width: 130,
+      flex: 1,
+      valueGetter: (value, row) => row?.categoryId?.name,
+    },
+    {
+      field: "brand",
+      headerName: "Brand",
+      width: 130,
+      flex: 1,
+      valueGetter: (value, row) => row?.brandId?.name,
+    },
     { field: "name", headerName: "Name", width: 130, flex: 1 },
     {
-      field: "stock",
+      field: "quantity",
       headerName: "Stock",
       type: "number",
       width: 90,
@@ -78,18 +89,18 @@ export default function DataTable() {
             onClick={() => {
               setOpen(true);
               setValues({
-                categoryId: params.row.actions?.categoryId?._id,
-                brandId: params.row.actions?.brandId?._id,
-                name: params.row.actions?.name,
-                _id: params.row.actions?._id,
+                categoryId: params.row?.categoryId?._id,
+                brandId: params.row?.brandId?._id,
+                name: params.row?.name,
+                _id: params.row?._id,
               });
             }}
           >
             <BorderColorIcon />
           </button>
           <DeleteProduct
-            productName={params.row.actions.name}
-            id={params.row.actions._id}
+            productName={params.row?.name}
+            id={params.row?._id}
           />
         </Box>
       ),
@@ -126,47 +137,28 @@ export default function DataTable() {
         </Box>
       ) : (
         <>
-          <FormControlLabel
-            checked={columnVisibilityModel.id !== false}
-            onChange={(event) =>
-              setColumnVisibilityModel(() => ({ id: event.target.checked }))
-            }
-            control={<Switch color="primary" />}
-            label="Show ID column"
-          />
-          <FormControlLabel
-            checked={filterModel.quickFilterExcludeHiddenColumns}
-            onChange={(event) =>
-              setFilterModel((model) => ({
-                ...model,
-                quickFilterExcludeHiddenColumns: event.target.checked,
-              }))
-            }
-            control={<Switch color="primary" />}
-            label="Exclude hidden columns"
-          />
-          <DataGrid
-            rows={rows}
+          
+          <DataGrid 
+          autoHeight
+            rows={products}
             columns={columns}
+            getRowId={(row) => row._id}
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+                paginationModel: {pageSize: 10 },
               },
             }}
-            pageSizeOptions={[5, 10, 20, 100]}
-            checkboxSelection
+            pageSizeOptions={[5, 10, 20, 100]} 
+            checkboxSelection 
+            
             // filterModel={filterModel}
             // onFilterModelChange={setFilterModel}
             // hideFooter
             // slots={{ toolbar: GridToolbar }}
             slotProps={{ toolbar: { showQuickFilter: true } }}
-            columnVisibilityModel={columnVisibilityModel}
-            onColumnVisibilityModelChange={(newModel) =>
-              setColumnVisibilityModel(newModel)
-            }
             slots={{ toolbar: GridToolbar }}
           />
-          )
+          
         </>
       )}
     </div>
