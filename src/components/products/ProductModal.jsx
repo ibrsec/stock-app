@@ -57,6 +57,11 @@ const ProductModal = ({ open, setOpen, values, setValues }) => {
     setOpen(false);
 
     //? [x] -reset form
+    setValues({
+      categoryId:"",
+      brandId:"",
+      name: "", 
+  });
   };
 
   return (

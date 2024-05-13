@@ -56,6 +56,12 @@ const NewFirmModal = ({ open, setOpen, values, setValues }) => {
     setOpen(false);
 
     //? [x] -reset form
+    setValues({
+      name: "",
+      phone: "",
+      address: "",
+      image: "",
+    });
   };
 
   return (

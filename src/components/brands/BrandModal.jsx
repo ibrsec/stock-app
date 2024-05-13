@@ -54,6 +54,10 @@ const BrandModal = ({ open, setOpen, values, setValues }) => {
     setOpen(false);
 
     //? [x] -reset form
+    setValues({
+      name: "", 
+      image: "",
+  });
   };
 
   return (

@@ -63,6 +63,13 @@ const PurchaseModal = ({ open, setOpen, values, setValues }) => {
     setOpen(false);
 
     //? [x] -reset form
+    setValues({
+      firmId: "",
+      brandId: "",
+      productId: "",
+      quantity: "",
+      price: "",
+    });
   };
 
   return (

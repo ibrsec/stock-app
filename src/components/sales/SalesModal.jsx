@@ -62,6 +62,12 @@ const SaleModal = ({ open, setOpen, values, setValues }) => {
     setOpen(false);
 
     //? [x] -reset form
+    setValues({
+      brandId: "",
+      productId: "",
+      quantity: "",
+      price: "",
+    });
   };
 
   return (
