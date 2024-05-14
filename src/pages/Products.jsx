@@ -1,16 +1,21 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import useStockRequest from "../services/useStockRequest.js";
 import { useSelector } from "react-redux";
-import { Alert, Box, Button } from "@mui/material";
+import { Alert, Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import DeleteProduct from "../components/products/DeleteProduct.jsx";
 import SkeltonTable from "../components/SkeltonTable.jsx";
 import ProductModal from "../components/products/ProductModal.jsx";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import { ErrorMessage, WarningMessage } from "../components/DataFetchMessages.jsx";
+import {
+  ErrorMessage,
+  WarningMessage,
+} from "../components/DataFetchMessages.jsx";
 
 export default function DataTable() {
   const products = useSelector((state) => state.stock.products);
+  const brands = useSelector((state) => state.stock.brands);
+  const categories = useSelector((state) => state.stock.categories);
   const error = useSelector((state) => state.stock.error);
   const loading = useSelector((state) => state.stock.loading);
   const [open, setOpen] = useState(false);
@@ -20,7 +25,7 @@ export default function DataTable() {
     name: "",
   });
 
-  const { getDataApi } = useStockRequest();
+  const { getDataApi, putEditApi } = useStockRequest();
 
   const [filterModel, setFilterModel] = useState({
     items: [],
@@ -33,6 +38,7 @@ export default function DataTable() {
     getDataApi("categories");
   }, []);
   console.log(products);
+
   // const rows = products?.map((item) => {
   //   return {
   //     id: item._id,
@@ -47,22 +53,30 @@ export default function DataTable() {
   const columns = [
     { field: "_id", headerName: "ID", width: 70, flex: 1 },
     {
-      field: "category",
+      field: "categoryId",
       headerName: "Category",
       width: 130,
       flex: 1,
-      valueGetter: (value, row) => row?.categoryId?.name,
+      editable: true,
+      type: "singleSelect",
+      valueGetter: (value, row) => row?.categoryId?._id,
+      valueOptions: categories,
+      getOptionLabel: (options) => options.name,
+      getOptionValue: (options) => options._id,
     },
     {
-      field: "brand",
+      field: "brandId",
       headerName: "Brand",
       width: 130,
       flex: 1,
       editable: true,
-
-      valueGetter: (value, row) => row?.brandId?.name,
+      type: "singleSelect",
+      valueGetter: (value, row) => row?.brandId?._id,
+      valueOptions: brands,
+      getOptionLabel: (options) => options.name,
+      getOptionValue: (options) => options._id,
     },
-    { field: "name", headerName: "Name", width: 130, flex: 1 },
+    { field: "name", headerName: "Name", width: 130, flex: 1, editable: true },
     {
       field: "quantity",
       headerName: "Stock",
@@ -108,6 +122,27 @@ export default function DataTable() {
     },
   ];
 
+  const onCellEditCommitHandle = (cellData) => {
+    const { id, field, value } = cellData;
+    console.log("after edit =======>");
+    console.log("id", id);
+    console.log("field", field);
+    console.log("value", value);
+  };
+  const handleProcessRowUpdate = (newRow, oldRow) => {
+    console.log("after row edit=====>");
+    console.log("newRow", newRow);
+    console.log("oldRow", oldRow);
+
+    const rowValues = {
+      categoryId: newRow?.categoryId?._id || newRow?.categoryId,
+      brandId: newRow?.brandId?._id || newRow?.brandId,
+      name: newRow?.name,
+    };
+    console.log("rowvalues", rowValues);
+    putEditApi("products", newRow._id, rowValues);
+  };
+
   return (
     <div style={{ height: 400, width: "100%" }}>
       <Button
@@ -131,25 +166,23 @@ export default function DataTable() {
         </Alert>
       )} */}
 
-
-
-
-      {
-      loading ?
-       <Box marginLeft={12} marginRight={12}>
-         <SkeltonTable />
-       </Box>
-      : error ? 
-      <ErrorMessage msg="Couldn't load the data"/> 
-      : !products.length ?
-       <WarningMessage msg="There is no data to show!"/> 
-      :  
-       (
+      {loading ? (
+        <Box marginLeft={12} marginRight={12}>
+          <SkeltonTable />
+        </Box>
+      ) : error ? (
+        <ErrorMessage msg="Couldn't load the data" />
+      ) : !products.length ? (
+        <WarningMessage msg="There is no data to show!" />
+      ) : (
         <>
           <DataGrid
             autoHeight
             rows={products}
             columns={columns}
+            onCellEditCommit={onCellEditCommitHandle}
+            processRowUpdate={handleProcessRowUpdate}
+            onProcessRowUpdateError={(error) => {/*console.log(error)*/}}
             getRowId={(row) => row._id}
             initialState={{
               pagination: {
@@ -166,8 +199,10 @@ export default function DataTable() {
             slots={{ toolbar: GridToolbar }}
           />
         </>
-      )
-      }
+      )}
+      <Typography variant="p" color="lightsalmon">
+        ** You can also edit from rows
+      </Typography>
     </div>
   );
 }
