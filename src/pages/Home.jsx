@@ -16,8 +16,8 @@ const Home = () => {
   },[])
 
 
-  const totalSales = sales.map(item=>item.amount).reduce((sum,current)=>sum + current);
-  const totalPurchases = purchases.map(item=>item.amount).reduce((sum,current)=>sum + current);
+  const totalSales = sales.map(item=>item.amount).reduce((sum,current)=>sum + current,0);
+  const totalPurchases = purchases.map(item=>item.amount).reduce((sum,current)=>sum + current,0);
   const profit =totalSales - totalPurchases;
 
 
