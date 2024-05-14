@@ -1,14 +1,18 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import useStockRequest from "../services/useStockRequest.js";
 import { useSelector } from "react-redux";
-import { Alert, Box } from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import SkeltonTable from "../components/SkeltonTable.jsx";
 import DeleteSale from "../components/sales/DeleteSale.jsx";
 import SaleModal from "../components/sales/SalesModal.jsx";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Button } from "@mui/material";
-import { ErrorMessage, WarningMessage } from "../components/DataFetchMessages.jsx";
+import {
+  ErrorMessage,
+  WarningMessage,
+} from "../components/DataFetchMessages.jsx";
+import { toastWarnNotify } from "../helper/ToastNotify.js";
 
 // const rows = [
 //   { id: 1, category: 'Snow', brand: 'Jon', name: 35 , actions:{_id:1,name:"anme",image:"https://lkmsdf.sdlfkm"}},
@@ -23,7 +27,7 @@ import { ErrorMessage, WarningMessage } from "../components/DataFetchMessages.js
 // ];
 
 export default function Sales() {
-  const { getDataApi } = useStockRequest();
+  const { getDataApi, putEditApi } = useStockRequest();
 
   useEffect(() => {
     getDataApi("products");
@@ -31,7 +35,7 @@ export default function Sales() {
     getDataApi("sales");
   }, []);
 
-  const sales = useSelector((state) => state.stock.sales);
+  const { sales, products, brands } = useSelector((state) => state.stock);
   const loading = useSelector((state) => state.stock.loading);
   const error = useSelector((state) => state.stock.error);
   const [open, setOpen] = useState(false);
@@ -44,28 +48,37 @@ export default function Sales() {
 
   const [filterModel, setFilterModel] = useState({
     items: [],
-    quickFilterExcludeHiddenColumns: true,
     quickFilterValues: [""],
   });
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
 
   console.log("sales:", sales);
-  
+
   const columns = [
     { field: "createdAt", headerName: "Date", width: 150, flex: 1 },
     {
-      field: "brand",
+      field: "brandId",
       headerName: "Brand",
       width: 130,
       flex: 1,
-      valueGetter: (value, row) => row?.brandId?.name,
+      editable: true,
+      type: "singleSelect",
+      valueGetter: (value, row) => row?.brandId?._id,
+      valueOptions: brands,
+      getOptionLabel: (options) => options.name,
+      getOptionValue: (options) => options._id,
     },
     {
-      field: "product",
+      field: "productId",
       headerName: "Product",
       width: 130,
       flex: 1,
-      valueGetter: (value, row) => row?.productId?.name,
+      editable: true,
+      type: "singleSelect",
+      valueGetter: (value, row) => row?.productId?._id,
+      valueOptions: products,
+      getOptionLabel: (options) => options.name,
+      getOptionValue: (options) => options._id,
     },
 
     {
@@ -74,6 +87,7 @@ export default function Sales() {
       type: "number",
       width: 90,
       flex: 1,
+      editable: true,
     },
     {
       field: "price",
@@ -81,6 +95,7 @@ export default function Sales() {
       type: "number",
       width: 90,
       flex: 1,
+      editable: true,
     },
     {
       field: "amount",
@@ -114,8 +129,8 @@ export default function Sales() {
                 brandId: params?.row?.brandId?._id,
                 productId: params?.row?.productId?._id,
                 quantity: params?.row?.quantity,
-                price: params?.row?.price, 
-                _id: params.row?._id, 
+                price: params?.row?.price,
+                _id: params.row?._id,
               });
             }}
           >
@@ -127,6 +142,34 @@ export default function Sales() {
       sortable: false,
     },
   ];
+
+  const handleProcessRowUpdate = (newRow, oldRow) => {
+    console.log("after row edit=====>");
+    console.log("newRow", newRow);
+    console.log("oldRow", oldRow);
+
+    const rowValues = {
+      brandId: newRow?.brandId?._id || newRow?.brandId,
+      productId: newRow?.productId?._id || newRow?.productId,
+      quantity: newRow?.quantity,
+      price: newRow?.price,
+    };
+    console.log("rowvalues", rowValues);
+
+    //is there any another empty field - while make put api call, we should give all fields
+    if (Object.values(rowValues).some((item) => !item)) {
+      toastWarnNotify(
+        "There are another empty field! You should make the edit from edit button!"
+      );
+    } else if(!oldRow.productId){
+      toastWarnNotify(
+        "Product is empty, you should add a new sale for this record!"
+      );
+    }else {
+      putEditApi("sales", newRow._id, rowValues);
+    }
+  };
+
   // const rows = sales?.map((item) => {
   //   return {
   //     id: item._id,
@@ -157,24 +200,24 @@ export default function Sales() {
         setValues={setValues}
       />
 
-       
-
-      
-{
-      loading ?
-       <Box marginLeft={12} marginRight={12}>
-         <SkeltonTable />
-       </Box>
-      : error ? 
-      <ErrorMessage msg="Couldn't load the data"/> 
-      : !sales.length ?
-       <WarningMessage msg="There is no data to show!"/> 
-      :  (
+      {loading ? (
+        <Box marginLeft={12} marginRight={12}>
+          <SkeltonTable />
+        </Box>
+      ) : error ? (
+        <ErrorMessage msg="Couldn't load the data" />
+      ) : !sales.length ? (
+        <WarningMessage msg="There is no data to show!" />
+      ) : (
         <>
           <DataGrid
             autoHeight
             rows={sales}
             columns={columns}
+            processRowUpdate={handleProcessRowUpdate}
+            onProcessRowUpdateError={(error) => {
+              /*console.log(error)*/
+            }}
             getRowId={(row) => row._id}
             initialState={{
               pagination: {
@@ -192,6 +235,9 @@ export default function Sales() {
           />
         </>
       )}
+      <Typography variant="p" color="lightsalmon">
+        ** You can also edit from rows
+      </Typography>
     </div>
   );
 }

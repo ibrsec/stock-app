@@ -26,8 +26,8 @@ const style = {
 
 const SaleModal = ({ open, setOpen, values, setValues }) => {
   const { postNewDataApi, putEditApi } = useStockRequest();
-  const {brands,products} = useSelector((state) => state.stock); 
-
+  const {brands,products} = useSelector((state) => state.stock);
+   
   const handleClose = () => {
     setValues({
       brandId: "",
@@ -52,7 +52,7 @@ const SaleModal = ({ open, setOpen, values, setValues }) => {
     //? - [x]  post new firm api write-call
     //? - [x]  get firms after post
     //? - [x]  show the result error success
-    if (values._id) {
+    if (values._id) {  
       putEditApi("sales", values._id, values);
     } else {
       postNewDataApi("sales", values);
@@ -85,61 +85,61 @@ const SaleModal = ({ open, setOpen, values, setValues }) => {
             sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           >
             <FormControl fullWidth>
-                    <InputLabel id="purchase-brand-new-label">Brand</InputLabel>
-                    <Select
-                      labelId="purchase-brand-new-label"
-                      id="purchase-brand-new"
-                      label="Brand"
-                      name="brandId"
-                      value={values.brandId}
-                      onChange={handleChange}
-                      required
-                    >
-                        {brands?.map((item,index)=>(
-                            <MenuItem key={index} value={item._id}>{item.name}</MenuItem>
+              <InputLabel id="purchase-brand-new-label">Brand</InputLabel>
+              <Select
+                labelId="purchase-brand-new-label"
+                id="purchase-brand-new"
+                label="Brand"
+                name="brandId"
+                value={values.brandId}
+                onChange={handleChange}
+                required
+              >
+                {brands?.map((item,index)=>(
+                  <MenuItem key={index} value={item._id}>{item.name}</MenuItem>
 
-                        ))} 
-                    </Select>
-                  </FormControl>
-                  <FormControl fullWidth>
-                    <InputLabel id="purchase-product-new-label">Product</InputLabel>
-                    <Select
-                      labelId="purchase-product-new-label"
-                      id="purchase-product-new"
-                      label="Product"
-                      name="productId"
-                      value={values.productId}
-                      onChange={handleChange}
-                      required
-                    >
-                        {products?.map((item,index)=>(
-                            <MenuItem key={index} value={item._id}>{item.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel id="purchase-product-new-label">Product</InputLabel>
+              <Select
+                labelId="purchase-product-new-label"
+                id="purchase-product-new"
+                label="Product"
+                name="productId"
+                value={values.productId}
+                onChange={handleChange}
+                required
+              >
+                {products?.map((item,index)=>(
+                  <MenuItem key={index} value={item._id}>{item.name}</MenuItem>
 
-                        ))} 
-                    </Select>
-                  </FormControl> 
-                  <TextField
-                    label="Quantity" 
-                    required 
-                    name="quantity" 
-                    id="quantity" 
-                    type="text" 
-                    variant="outlined" 
-                    value={values.quantity} 
-                    onChange={handleChange}  
-                    
-                  /> 
-                  <TextField
-                    label="Price"
-                    required
-                    name="price"
-                    id="price"
-                    type="text"
-                    variant="outlined"
-                    value={values.price} 
-                    onChange={handleChange}  
-                    
-                  /> 
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              label="Quantity"
+              required
+              name="quantity"
+              id="quantity"
+              type="text"
+              variant="outlined"
+              value={values.quantity}
+              onChange={handleChange}
+
+            />
+            <TextField
+              label="Price"
+              required
+              name="price"
+              id="price"
+              type="text"
+              variant="outlined"
+              value={values.price}
+              onChange={handleChange}
+
+            />
             <Button type="submit" variant="contained" size="large">
               {values._id ? "UPDATE SALE" : "ADD SALE"}
             </Button>
