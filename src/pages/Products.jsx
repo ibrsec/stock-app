@@ -7,6 +7,7 @@ import DeleteProduct from "../components/products/DeleteProduct.jsx";
 import SkeltonTable from "../components/SkeltonTable.jsx";
 import ProductModal from "../components/products/ProductModal.jsx";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import { ErrorMessage, WarningMessage } from "../components/DataFetchMessages.jsx";
 
 export default function DataTable() {
   const products = useSelector((state) => state.stock.products);
@@ -22,7 +23,7 @@ export default function DataTable() {
   const { getDataApi } = useStockRequest();
 
   const [filterModel, setFilterModel] = useState({
-    items: [], 
+    items: [],
     quickFilterValues: [""],
   });
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
@@ -57,6 +58,8 @@ export default function DataTable() {
       headerName: "Brand",
       width: 130,
       flex: 1,
+      editable: true,
+
       valueGetter: (value, row) => row?.brandId?.name,
     },
     { field: "name", headerName: "Name", width: 130, flex: 1 },
@@ -98,10 +101,7 @@ export default function DataTable() {
           >
             <BorderColorIcon />
           </button>
-          <DeleteProduct
-            productName={params.row?.name}
-            id={params.row?._id}
-          />
+          <DeleteProduct productName={params.row?.name} id={params.row?._id} />
         </Box>
       ),
       sortable: false,
@@ -125,32 +125,39 @@ export default function DataTable() {
         setValues={setValues}
       />
 
-      {error && (
+      {/* {error && (
         <Alert severity="error" sx={{ marginBottom: "25px" }}>
           Couldn't get the Products!!
         </Alert>
-      )}
+      )} */}
 
-      {loading ? (
-        <Box marginLeft={12} marginRight={12}>
-          <SkeltonTable />
-        </Box>
-      ) : (
+
+
+
+      {
+      loading ?
+       <Box marginLeft={12} marginRight={12}>
+         <SkeltonTable />
+       </Box>
+      : error ? 
+      <ErrorMessage msg="Couldn't load the data"/> 
+      : !products.length ?
+       <WarningMessage msg="There is no data to show!"/> 
+      :  
+       (
         <>
-          
-          <DataGrid 
-          autoHeight
+          <DataGrid
+            autoHeight
             rows={products}
             columns={columns}
             getRowId={(row) => row._id}
             initialState={{
               pagination: {
-                paginationModel: {pageSize: 10 },
+                paginationModel: { pageSize: 10 },
               },
             }}
-            pageSizeOptions={[5, 10, 20, 100]} 
-            checkboxSelection 
-            
+            pageSizeOptions={[5, 10, 20, 100]}
+            checkboxSelection
             // filterModel={filterModel}
             // onFilterModelChange={setFilterModel}
             // hideFooter
@@ -158,9 +165,9 @@ export default function DataTable() {
             slotProps={{ toolbar: { showQuickFilter: true } }}
             slots={{ toolbar: GridToolbar }}
           />
-          
         </>
-      )}
+      )
+      }
     </div>
   );
 }

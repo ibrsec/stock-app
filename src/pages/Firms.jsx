@@ -5,6 +5,7 @@ import FirmCard from "../components/firms/FirmCard";
 import { useSelector } from "react-redux";
 import FirmModal from "../components/firms/FirmModal"; 
 import SkeltonCards from "../components/SkeltonCards";
+import { ErrorMessage, WarningMessage } from "../components/DataFetchMessages";
 
  
 
@@ -40,11 +41,16 @@ console.log(error);
         NEW FIRM
       </Button>
     <FirmModal open={open} setOpen={setOpen} values={values} setValues={setValues}/>
-    {error && <Alert severity="error" sx={{marginBottom:"25px"}}>Couldn't get the firms!!</Alert>}
-    
+   
+   
     
 
-    {loading ? <Box marginLeft={12} marginRight={12}><SkeltonCards /></Box> : (
+
+    {loading ? <Box marginLeft={12} marginRight={12}><SkeltonCards /></Box> : error ? 
+    <ErrorMessage msg="Couldn't load the data"/> 
+    : !firms.length ?
+     <WarningMessage msg="There is no data to show!"/> 
+    :  (
 <>
       {/* Firms List */}
       <Box display="flex" flexWrap='wrap' gap={2} justifyContent="center" alignItems="center"   marginy={5}>

@@ -7,6 +7,7 @@ import SkeltonTable from "../components/SkeltonTable.jsx";
 import DeletePurchase from "../components/purchases/DeletePurchase.jsx";
 import PurchaseModal from "../components/purchases/PurchaseModal.jsx";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import { ErrorMessage, WarningMessage } from "../components/DataFetchMessages.jsx";
 
 // const rows = [
 //   { id: 1, category: 'Snow', brand: 'Jon', name: 35 , actions:{_id:1,name:"anme",image:"https://lkmsdf.sdlfkm"}},
@@ -166,17 +167,18 @@ export default function Purchases() {
         setValues={setValues}
       />
 
-      {error && (
-        <Alert severity="error" sx={{ marginBottom: "25px" }}>
-          Couldn't get the Purchases!!
-        </Alert>
-      )}
+       
 
-      {loading ? (
-        <Box marginLeft={12} marginRight={12}>
-          <SkeltonTable />
-        </Box>
-      ) : (
+{
+      loading ?
+       <Box marginLeft={12} marginRight={12}>
+         <SkeltonTable />
+       </Box>
+      : error ? 
+      <ErrorMessage msg="Couldn't load the data"/> 
+      : !purchases.length ?
+       <WarningMessage msg="There is no data to show!"/> 
+      :   (
         <>
           <DataGrid
             autoHeight

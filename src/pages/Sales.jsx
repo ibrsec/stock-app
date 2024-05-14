@@ -8,6 +8,7 @@ import DeleteSale from "../components/sales/DeleteSale.jsx";
 import SaleModal from "../components/sales/SalesModal.jsx";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Button } from "@mui/material";
+import { ErrorMessage, WarningMessage } from "../components/DataFetchMessages.jsx";
 
 // const rows = [
 //   { id: 1, category: 'Snow', brand: 'Jon', name: 35 , actions:{_id:1,name:"anme",image:"https://lkmsdf.sdlfkm"}},
@@ -49,7 +50,7 @@ export default function Sales() {
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
 
   console.log("sales:", sales);
-
+  
   const columns = [
     { field: "createdAt", headerName: "Date", width: 150, flex: 1 },
     {
@@ -156,17 +157,19 @@ export default function Sales() {
         setValues={setValues}
       />
 
-      {error && (
-        <Alert severity="error" sx={{ marginBottom: "25px" }}>
-          Couldn't get the Sales!!
-        </Alert>
-      )}
+       
 
-      {loading ? (
-        <Box marginLeft={12} marginRight={12}>
-          <SkeltonTable />
-        </Box>
-      ) : (
+      
+{
+      loading ?
+       <Box marginLeft={12} marginRight={12}>
+         <SkeltonTable />
+       </Box>
+      : error ? 
+      <ErrorMessage msg="Couldn't load the data"/> 
+      : !sales.length ?
+       <WarningMessage msg="There is no data to show!"/> 
+      :  (
         <>
           <DataGrid
             autoHeight
