@@ -11,6 +11,7 @@ import {
   ErrorMessage,
   WarningMessage,
 } from "../components/DataFetchMessages.jsx";
+import { toastWarnNotify } from "../helper/ToastNotify.js";
 
 export default function DataTable() {
   const products = useSelector((state) => state.stock.products);
@@ -122,13 +123,6 @@ export default function DataTable() {
     },
   ];
 
-  const onCellEditCommitHandle = (cellData) => {
-    const { id, field, value } = cellData;
-    console.log("after edit =======>");
-    console.log("id", id);
-    console.log("field", field);
-    console.log("value", value);
-  };
   const handleProcessRowUpdate = (newRow, oldRow) => {
     console.log("after row edit=====>");
     console.log("newRow", newRow);
@@ -139,8 +133,20 @@ export default function DataTable() {
       brandId: newRow?.brandId?._id || newRow?.brandId,
       name: newRow?.name,
     };
-    console.log("rowvalues", rowValues);
-    putEditApi("products", newRow._id, rowValues);
+    // console.log("rowvalues", rowValues);
+    
+
+
+    //is there any another empty field - while make put api call, we should give all fields
+    if(Object.values(rowValues).some(item=> !item)){
+      toastWarnNotify("There are another empty field! You should make the edit from edit button!");
+    }else{
+      putEditApi("products", newRow._id, rowValues);
+
+    }
+
+
+
   };
 
   return (
@@ -180,9 +186,10 @@ export default function DataTable() {
             autoHeight
             rows={products}
             columns={columns}
-            onCellEditCommit={onCellEditCommitHandle}
             processRowUpdate={handleProcessRowUpdate}
-            onProcessRowUpdateError={(error) => {/*console.log(error)*/}}
+            onProcessRowUpdateError={(error) => {
+              /*console.log(error)*/
+            }}
             getRowId={(row) => row._id}
             initialState={{
               pagination: {

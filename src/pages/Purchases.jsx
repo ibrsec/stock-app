@@ -1,13 +1,17 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import useStockRequest from "../services/useStockRequest.js";
 import { useSelector } from "react-redux";
-import { Alert, Box, Button } from "@mui/material";
+import { Alert, Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import SkeltonTable from "../components/SkeltonTable.jsx"; 
+import SkeltonTable from "../components/SkeltonTable.jsx";
 import DeletePurchase from "../components/purchases/DeletePurchase.jsx";
 import PurchaseModal from "../components/purchases/PurchaseModal.jsx";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import { ErrorMessage, WarningMessage } from "../components/DataFetchMessages.jsx";
+import {
+  ErrorMessage, 
+  WarningMessage,
+} from "../components/DataFetchMessages.jsx";
+import { toastWarnNotify } from "../helper/ToastNotify.js";
 
 // const rows = [
 //   { id: 1, category: 'Snow', brand: 'Jon', name: 35 , actions:{_id:1,name:"anme",image:"https://lkmsdf.sdlfkm"}},
@@ -22,7 +26,7 @@ import { ErrorMessage, WarningMessage } from "../components/DataFetchMessages.js
 // ];
 
 export default function Purchases() {
-  const { getDataApi } = useStockRequest();
+  const { getDataApi, putEditApi } = useStockRequest();
 
   useEffect(() => {
     getDataApi("products");
@@ -31,7 +35,9 @@ export default function Purchases() {
     getDataApi("purchases");
   }, []);
 
-  const purchases = useSelector((state) => state.stock.purchases);
+  const { purchases, firms, brands, products } = useSelector(
+    (state) => state.stock
+  );
   const loading = useSelector((state) => state.stock.loading);
   const error = useSelector((state) => state.stock.error);
 
@@ -46,7 +52,6 @@ export default function Purchases() {
 
   const [filterModel, setFilterModel] = useState({
     items: [],
-    quickFilterExcludeHiddenColumns: true,
     quickFilterValues: [""],
   });
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
@@ -55,31 +60,47 @@ export default function Purchases() {
   const columns = [
     { field: "createdAt", headerName: "Date", width: 150, flex: 1 },
     {
-      field: "firm",
+      field: "firmId",
       headerName: "Firm",
       width: 130,
       flex: 1,
-      valueGetter: (value, row) => row?.firmId?.name,
+      editable: true,
+      type: "singleSelect",
+      valueGetter: (value, row) => row?.firmId?._id,
+      valueOptions: firms,
+      getOptionLabel: (options) => options.name,
+      getOptionValue: (options) => options._id,
     },
     {
-      field: "brand",
+      field: "brandId",
       headerName: "Brand",
       width: 130,
       flex: 1,
-      valueGetter: (value, row) => row?.brandId?.name,
+      editable: true,
+      type: "singleSelect",
+      valueGetter: (value, row) => row?.brandId?._id,
+      valueOptions: brands,
+      getOptionLabel: (options) => options.name,
+      getOptionValue: (options) => options._id,
     },
     {
-      field: "product",
+      field: "productId",
       headerName: "Product",
       width: 130,
       flex: 1,
-      valueGetter: (value, row) => row?.productId?.name,
+      editable: true,
+      type: "singleSelect",
+      valueGetter: (value, row) => row?.productId?._id,
+      valueOptions: products,
+      getOptionLabel: (options) => options.name,
+      getOptionValue: (options) => options._id,
     },
 
     {
       field: "quantity",
       headerName: "Quantity",
       type: "number",
+      editable: true,
       width: 90,
       flex: 1,
     },
@@ -87,6 +108,7 @@ export default function Purchases() {
       field: "price",
       headerName: "Price",
       type: "number",
+      editable: true,
       width: 90,
       flex: 1,
     },
@@ -123,7 +145,7 @@ export default function Purchases() {
                 brandId: params?.row?.brandId?._id,
                 productId: params?.row?.productId?._id,
                 quantity: params?.row?.quantity,
-                price: params?.row?.price,                
+                price: params?.row?.price,
                 _id: params?.row?._id,
               });
             }}
@@ -136,6 +158,34 @@ export default function Purchases() {
       sortable: false,
     },
   ];
+
+  const handleProcessRowUpdate = (newRow, oldRow) => {
+    console.log("after row edit=====>");
+    console.log("newRow", newRow);
+    console.log("oldRow", oldRow);
+
+    const rowValues = {
+      firmId: newRow?.firmId?._id || newRow?.firmId,
+      brandId: newRow?.brandId?._id || newRow?.brandId,
+      productId: newRow?.productId?._id || newRow?.productId,
+      quantity: newRow?.quantity,
+      price: newRow?.price, 
+
+    };
+    // console.log("rowvalues", rowValues);
+
+    //is there any another empty field - while make put api call, we should give all fields
+    if(Object.values(rowValues).some(item=> !item)){
+      toastWarnNotify("There are another empty field! You should make the edit from edit button!");
+    }else{
+      putEditApi("purchases", newRow._id, rowValues);
+
+    }
+     
+
+
+  };
+
   // const rows = purchases?.map((item) => {
   //   return {
   //     id: item._id,
@@ -167,23 +217,24 @@ export default function Purchases() {
         setValues={setValues}
       />
 
-       
-
-{
-      loading ?
-       <Box marginLeft={12} marginRight={12}>
-         <SkeltonTable />
-       </Box>
-      : error ? 
-      <ErrorMessage msg="Couldn't load the data"/> 
-      : !purchases.length ?
-       <WarningMessage msg="There is no data to show!"/> 
-      :   (
+      {loading ? (
+        <Box marginLeft={12} marginRight={12}>
+          <SkeltonTable />
+        </Box>
+      ) : error ? (
+        <ErrorMessage msg="Couldn't load the data" />
+      ) : !purchases.length ? (
+        <WarningMessage msg="There is no data to show!" />
+      ) : (
         <>
           <DataGrid
             autoHeight
             rows={purchases}
             columns={columns}
+            processRowUpdate={handleProcessRowUpdate}
+            onProcessRowUpdateError={(error) => {
+              /*console.log(error)*/
+            }}
             getRowId={(row) => row._id}
             initialState={{
               pagination: {
@@ -201,6 +252,9 @@ export default function Purchases() {
           />
         </>
       )}
+      <Typography variant="p" color="lightsalmon">
+        ** You can also edit from rows
+      </Typography>
     </div>
   );
 }
