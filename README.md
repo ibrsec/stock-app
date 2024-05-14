@@ -1,70 +1,220 @@
-# Getting Started with Create React App
+<a name="readme-top"></a>
+ 
+ 
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+   
+  <a href="https://github.com/ibrsec/redux-toolkit-mp3dowloader/">
+    <img src="./public/logo.png" alt="Logo" width="250"   >
+  </a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <h3 align="center">Stock App</h3>
 
-## Available Scripts
+  <p align="center">
+    An awesome Stock App
+    <a href="https://github.com/ibrsec/stock-app"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://ultra-stock-app.vercel.app/">View Demo</a>
+    ·
+    <a href="https://github.com/ibrsec/stock-app/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/ibrsec/stock-app/issues">Request Feature</a>
+  </p>
+</div>
 
-In the project directory, you can run:
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>📎 Table of Contents 📎 </summary>
+  <ol>
+    <li><a href="#about-the-project">About The Project</a></li>
+     <!-- <li><a href="#figma">Figma</a></li> -->
+     <li><a href="#overview">Overview</a></li>
+     <li><a href="#quick-setup">Quick Setup</a></li>
+     <li><a href="#directory-structure">Directory structure</a></li>
+     <li><a href="#built-with">Built With</a></li>
+    <!-- <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li> -->
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    
+  </ol>
+</details>
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<!-- ABOUT THE PROJECT -->
+<a name="about-the-project"></a>
+## ℹ️ About The Project
 
-### `yarn eject`
+[![stock-app](./public/project.gif)](https://ultra-stock-app.vercel.app/)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<!-- ## Figma 
 
-### Code Splitting
+<a href="https://www.figma.com/file/ePyCHKsx2ODB32uLgyUEEd/bootstrap-home-page?type=design&node-id=0%3A1&mode=design&t=edDzadCB9Ev5FS1a-1">Figma Link</a>  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+--- -->
+<a name="overview"></a>
+## 👀 Overview
 
-### Advanced Configuration
+📦 Used a ready backend for stock api </br>
+🎯 Used React environment, redux toolkit,redux-persist,react-routing,material mui-x-datagrid, mui-x-charts ,axios,formik, yup, toastify, </br>
+🖥 You can Register or login with the ready credentials on the login page, Contents can be accessed after logging in! </br>
+🔩 After login there is  a few page like dashboard,products,sales,purchases,firms,brands</br>
+💪 All fields can be manage in their pages</br>
+🌱 Records of all fields can be edited, deleted or new records can be added on their own pages</br>
+🐞 Firms and Brands pages listed as cards they have edit delete and add new record features   </br>
+🏀 Information listed in tables on the Purchases, Sales, Products pages,
+They can be edited, deleted, and new records can be added. You can also make edits on table rows.  
+</br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `yarn build` fails to minify
+<a name="quick-setup"></a>
+## 🛫 Quick Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```sh
+# clone the project
+git clone https://github.com/ibrsec/stock-app.git
+
+# enter the project directory
+cd stock-app
+
+# install dependency
+npm install || yarn install
+
+# develop
+npm run dev || yarn start
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- ## 🐞 Debug
+
+![stock-app.gif](/stock-app.gif) -->
+
+
+
+
+
+
+
+
+<a name="directory-structure"></a>
+## 📂 Directory structure 
+
+```diff
+stock-app  (folder)
+  |          
+  |---public (folder) 
+  |                
++ |---src (folder) 
+  |     |---assests (folder) 
+  |     |           
+  |     |---pages (folder)       
+  |     |           
+  |     |---components (folder) 
+  |     |    
+  |     |---app (folder)       
+  |     |     └---store.jsx       
+  |     |          
+  |     |---features (folder)       
+  |     |     |---authSlice.jsx  
+  |     |     └---stockSlice.jsx       
+  |     |          
+  |     |---router (folder)        
+  |     |     |---PrivateRoute.jsx  
+  |     |     └---AppRouter.jsx       
+  |     |          
+  |     |---router (folder)        
+  |     |     |---useAxios.jsx  
+  |     |     |---useApiRequests.jsx  
+  |     |     └---useStockRequest.jsx       
+  |     |          
+  |     |---helper (folder)        
+  |     |     └---ToastNotify.js       
+  |     |          
+  |     |---App.js 
+  |     |---Index.js
+  |     └---Index.css
+  |      
+  |----package.json
+  |----yarn.lock
+  |----tailwind.config.js
+  |----.env.local
+  └----readme.md 
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+<a name="built-with"></a>
+### 🏗️ Built With
+
+ 
+<!-- https://dev.to/envoy_/150-badges-for-github-pnk  search skills-->
+
+ <img src="https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white">
+ <img src="https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white&color=red"> 
+ <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
+ <!-- <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white">  -->
+ <!-- <img src="https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white">  -->
+ <!-- <img src="https://img.shields.io/badge/Vite-AB4BFE?style=for-the-badge&logo=vite&logoColor=FFC920">  -->
+ <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"> 
+ <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white"> 
+
+ <img src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white"> 
+ <img src="https://img.shields.io/badge/Redux Toolkit-593D88?style=for-the-badge&logo=redux&logoColor=white"> 
+ <img src="https://img.shields.io/badge/Redux--Persist -593D88?style=for-the-badge&logo=redux&logoColor=white"> 
+ <!-- <img src="https://img.shields.io/badge/Context API-593D88?style=for-the-badge&logo=context&logoColor=white">  -->
+
+
+ <img src="https://img.shields.io/badge/Axios-593D88?style=for-the-badge&logo=axios&logoColor=white"> 
+ <!-- <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white">  -->
+
+ <img src="https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white"> 
+ <img src="https://img.shields.io/badge/Formik-172B4D?style=for-the-badge&logo=formik&logoColor=white"> 
+ <img src="https://img.shields.io/badge/Yup-172B4D?style=for-the-badge&logo=yup&logoColor=white"> 
+ <img src="https://img.shields.io/badge/Toastify-45CC11?style=for-the-badge&logo=toastify-ui&logoColor=white"> 
+ 
+
+
+
+ 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
