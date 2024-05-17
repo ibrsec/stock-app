@@ -56,7 +56,7 @@ let icons = [
 
 const MenuListComp = () => {
   const navigate = useNavigate();
-  const [activeList, setActiveList] = useState("Dashboard");
+  const [activeList, setActiveList] = useState(localStorage.getItem("activeMenu") || "Dashboard");
   icons.map((item) => {
     if (item.title === activeList) {
       return { ...item, active: true };
@@ -68,6 +68,7 @@ const MenuListComp = () => {
   const handleClickItem = (item) => {
     navigate(item.path);
     setActiveList(item.title);
+    localStorage.setItem("activeMenu",item.title)
   };
 
   const listStyle = {
