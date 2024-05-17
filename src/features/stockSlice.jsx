@@ -43,12 +43,19 @@ const stockSlice = createSlice({
       state.products=[]
       state.categories=[]
       state.purchases=[]
+      state.sales=[]
       
+    },
+    stockPromiseAllSuccess : (state,{payload:{paths,datas}})=>{
+      state.loading = false;
+      paths?.forEach((path,i)=>{
+        state[path]=datas[i];
+      }) 
     }
   },
 });
 
-export const {fetchStockStart,fetchStockFail,stockSuccess,successWitoutPayload,deleteStockLogout} = stockSlice.actions;
+export const {fetchStockStart,fetchStockFail,stockSuccess,successWitoutPayload,deleteStockLogout,stockPromiseAllSuccess} = stockSlice.actions;
 export default stockSlice.reducer;
 
 

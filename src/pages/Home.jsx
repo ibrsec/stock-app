@@ -8,11 +8,11 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import BalanceIcon from '@mui/icons-material/Balance';
 const Home = () => {
   const { purchases, sales } = useSelector((state) => state.stock);
-  const {getDataApi} = useStockRequest();
+  const {getDataApi,getAllDataGenericApi} = useStockRequest();
 
-  useEffect(()=>{
-    getDataApi("sales");
-    getDataApi("purchases");
+  useEffect(()=>{ 
+    //with Promise all
+    getAllDataGenericApi(['sales',"purchases"])
   },[])
 
 

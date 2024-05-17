@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import useAxios from "./useAxios" 
-import { fetchStockFail, fetchStockStart, stockSuccess, successWitoutPayload } from "../features/stockSlice";
+import { fetchStockFail, fetchStockStart, stockSuccess, successWitoutPayload,stockPromiseAllSuccess } from "../features/stockSlice";
 import {
     taostStopLoading, 
     toastLoading, 
@@ -85,7 +85,33 @@ const useStockRequest = () => {
             
         }
     }
-    return { getDataApi,deleteSelectedDataApi,postNewDataApi,putEditApi }
+
+
+    const getAllDataGenericApi = async (paths) => {
+        const idLoading = toastLoading(`Getting the ${paths?.join(", ")}...` );
+        try {
+            dispatch(fetchStockStart())
+            const res = await Promise.all(
+                paths?.map(item=>axiosToken(item))
+                )
+
+            
+            const datas = res.map(item=>item?.data?.data)
+            console.log(`useStocktan promise all (${paths?.join(", ")})= `,res);
+            console.log(paths);
+            console.log(datas);
+            dispatch(stockPromiseAllSuccess({datas,paths}))
+            taostStopLoading(idLoading,"success",`${paths} are loaded successfully!`) 
+        } catch (error) {
+            // toastErrorNotify("Error! Couldn't Get Firms");
+            taostStopLoading(idLoading,"error","Error! Datas couldn't be loaded!") 
+
+            dispatch(fetchStockFail())
+            console.log(error);
+            
+        }
+    }
+    return { getDataApi,deleteSelectedDataApi,postNewDataApi,putEditApi,getAllDataGenericApi }
 }
 
 export default useStockRequest
