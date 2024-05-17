@@ -221,9 +221,7 @@ export default function Purchases() {
         <Box marginLeft={12} marginRight={12}>
           <SkeltonTable />
         </Box>
-      ) : error ? (
-        <ErrorMessage msg="Couldn't load the data" />
-      ) : !purchases.length ? (
+      )   : !purchases.length ? (
         <WarningMessage msg="There is no data to show!" />
       ) : (
         <>

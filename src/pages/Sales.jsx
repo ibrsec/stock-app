@@ -204,9 +204,7 @@ export default function Sales() {
         <Box marginLeft={12} marginRight={12}>
           <SkeltonTable />
         </Box>
-      ) : error ? (
-        <ErrorMessage msg="Couldn't load the data" />
-      ) : !sales.length ? (
+      )  : !sales.length ? (
         <WarningMessage msg="There is no data to show!" />
       ) : (
         <>

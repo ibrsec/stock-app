@@ -21,7 +21,7 @@ const useStockRequest = () => {
             taostStopLoading(idLoading,"success",`${path} are loaded successfully!`) 
         } catch (error) {
             // toastErrorNotify("Error! Couldn't Get Firms");
-            taostStopLoading(idLoading,"error","Error! Datas couldn't be loaded!") 
+            taostStopLoading(idLoading,"error","Error! Datas couldn't be loaded!"+ " - "+path) 
 
             dispatch(fetchStockFail())
             console.log(error);
@@ -104,7 +104,7 @@ const useStockRequest = () => {
             taostStopLoading(idLoading,"success",`${paths} are loaded successfully!`) 
         } catch (error) {
             // toastErrorNotify("Error! Couldn't Get Firms");
-            taostStopLoading(idLoading,"error","Error! Datas couldn't be loaded!") 
+            taostStopLoading(idLoading,"error","Error! Datas couldn't be loaded!"+ " - "+paths.join(", ")) 
 
             dispatch(fetchStockFail())
             console.log(error);

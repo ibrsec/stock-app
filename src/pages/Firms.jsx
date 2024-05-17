@@ -46,8 +46,7 @@ console.log(error);
     
 
 
-    {loading ? <Box marginLeft={12} marginRight={12}><SkeltonCards /></Box> : error ? 
-    <ErrorMessage msg="Couldn't load the data"/> 
+    {loading ? <Box marginLeft={12} marginRight={12}><SkeltonCards /></Box>  
     : !firms.length ?
      <WarningMessage msg="There is no data to show!"/> 
     :  (

@@ -176,9 +176,7 @@ export default function DataTable() {
         <Box marginLeft={12} marginRight={12}>
           <SkeltonTable />
         </Box>
-      ) : error ? (
-        <ErrorMessage msg="Couldn't load the data" />
-      ) : !products.length ? (
+      )  : !products.length ? (
         <WarningMessage msg="There is no data to show!" />
       ) : (
         <>
