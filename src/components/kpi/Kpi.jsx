@@ -21,7 +21,7 @@ const Kpi = () => {
     {
       id: 1,
       variant: "Sales",
-      total: totalSales,
+      total: totalSales.toLocaleString("tr-TR"),
       icon: <MonetizationOnIcon />,
       bgColor: "lightpink",
       color: "hotpink",
@@ -29,7 +29,7 @@ const Kpi = () => {
     {
       id: 2,
       variant: "Profit",
-      total: profit,
+      total: profit.toLocaleString("tr-TR"),
       icon: <BalanceIcon />,
       bgColor: "#D9E291",
       color: "#62304A",
@@ -37,7 +37,7 @@ const Kpi = () => {
     {
       id: 3,
       variant: "Purchases",
-      total: totalPurchases,
+      total: totalPurchases.toLocaleString("tr-TR"),
       icon: <ShoppingCartCheckoutIcon />,
       bgColor: "#32CAFA",
       color: "#9F4C38",
@@ -81,10 +81,10 @@ const Kpi = () => {
             {item.icon}
           </Box>
           <Box>
-            <Box sx={{ color: "whiteSpec.main", fontWeight: "600" }}>
+            <Box sx={{ color: "whiteSpec.main", fontWeight: "500", textTransform:"uppercase",letterSpacing:".7px" }}>
               {item.variant}
             </Box>
-            <Box sx={{ color: "whiteSpec.main", whiteSpace: "nowrap" }}>
+            <Box  sx={{ color: "whiteSpec.main", whiteSpace: "nowrap",fontWeight:"bold",fontSize:"1.3rem" }}>
               ${item.total}
             </Box>
           </Box>

@@ -2,10 +2,7 @@ import React, { useEffect } from "react";
 import Chart from "../components/charts/Chart";
 import { useSelector } from "react-redux";
 import useStockRequest from "../services/useStockRequest";
-import { Box } from "@mui/material";
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
-import BalanceIcon from '@mui/icons-material/Balance';
+import {   Grid } from "@mui/material"; 
 import Kpi from "../components/kpi/Kpi";
 const Home = () => {
   const { purchases, sales } = useSelector((state) => state.stock);
@@ -28,10 +25,11 @@ const Home = () => {
        
 
 
-      <Box display="flex" flexWrap="wrap" mt={10}>
+      <Grid container mt={10}   spacing={3}   justifyContent="center" 
+  alignItems="center">
         <Chart datas={purchases} dataName="Purchases" />
         <Chart datas={sales} dataName="Sales" />
-      </Box>
+      </Grid>
     </>
   );
 };
